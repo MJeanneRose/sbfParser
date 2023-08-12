@@ -1,0 +1,14 @@
+__pycache__/
+*.so
+*.c
+*.pyc
+*.sbf
+*.txt
+build/
+.env
+.venv
+env/
+venv/
+!c_crc.c
+test/
+
