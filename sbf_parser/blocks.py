@@ -93,7 +93,7 @@ MeasEpoch = (
     ('SB1Length', 'u1'),
     ('SB2Length', 'u1'),
     ('CommonFlags', 'u1'),
-    ('CumClkJumps', 'i1'),
+    ('CumClkJumps', 'u1'),
     ('Reserved', 'u1'),
 )
 
@@ -132,7 +132,7 @@ MeasExtra = (
     ('DopplerVarFactor', 'f4'),
 )
 
-MeasExtra_MeasExtraChannel = (
+MeasExtraChannelSub = (
     ('RxChannel', 'u1'),
     ('Type', 'u1'),
     ('MPCorrection ', 'i2'),
@@ -141,39 +141,9 @@ MeasExtra_MeasExtraChannel = (
     ('CarrierVar', 'u2'),
     ('LockTime', 'u2'),
     ('CumLossCont', 'u1'),
-    ('Reserved', 'u1'),
-    ('Info', 'u1')
-)
-
-GALAuthStatus = (
-    ('TOW', 'u4'),
-    ('WNc', 'u2'),
-    ('OSNMAStatus', 'u2'),
-    ('TrustedTimeDelta', 'f4'),
-    ('GalActiveMask', 'u8'),
-    ('GalAuthenticMask', 'u8'),
-    ('GpsActiveMask', 'u8'),
-    ('GpsAuthenticMask', 'u8'),
-)
-
-IQCorr = (
-    ('TOW', 'u4'),
-    ('WNc', 'u2'),
-    ('N', 'u1'),
-    ('SBLength', 'u1'),
-    ('CorrDuration', 'u1'),
-    ('CumClkJumps', 'i1'),
-    ('Reserved', 'u1[2]')
-)
-
-IQCorr_CorrChannel = (
-    ('RxChannel', 'u1'),
-    ('Type', 'u1'),
-    ('SVID', 'u1'),
-    ('CorrIQ_MSB', 'u1'),
-    ('CorrI_LSB', 'u1'),
-    ('CorrQ_LSB', 'u1'),
-    ('CarrierPhaseLSB', 'u2'),
+    ('CarMPCorr', 'i1'),
+    ('Info', 'u1'),
+    ('Misc', 'u1')
 )
 
 EndOfMeas = (
@@ -189,7 +159,7 @@ GPSRawCA = (
     ('ViterbiCount', 'u1'),
     ('Source', 'u1'),
     ('FreqNr', 'u1'),
-    ('Reserved', 'u1'),
+    ('RxChannel', 'u1'),
     ('NAVBits', 'u4[10]'),
 )
 
@@ -201,7 +171,7 @@ GPSRawL2C = (
     ('ViterbiCount', 'u1'),
     ('Source', 'u1'),
     ('FreqNr', 'u1'),
-    ('Reserved', 'u1'),
+    ('RxChannel', 'u1'),
     ('NAVBits', 'u4[10]'),
 )
 
@@ -213,7 +183,7 @@ GPSRawL5 = (
     ('ViterbiCount', 'u1'),
     ('Source', 'u1'),
     ('FreqNr', 'u1'),
-    ('Reserved', 'u1'),
+    ('RxChannel', 'u1'),
     ('NAVBits', 'u4[10]'),
 )
 
@@ -225,7 +195,7 @@ GLORawCA = (
     ('ViterbiCount', 'u1'),
     ('Source', 'u1'),
     ('FreqNr', 'u1'),
-    ('Reserved', 'u1'),
+    ('RxChannel', 'u1'),
     ('NAVBits', 'u4[3]'),
 )
 
@@ -237,7 +207,7 @@ GALRawFNAV = (
     ('ViterbiCount', 'u1'),
     ('Source', 'u1'),
     ('FreqNr', 'u1'),
-    ('Reserved', 'u1'),
+    ('RxChannel', 'u1'),
     ('NAVBits', 'u4[8]'),
 )
 
@@ -249,7 +219,7 @@ GALRawINAV = (
     ('ViterbiCount', 'u1'),
     ('Source', 'u1'),
     ('FreqNr', 'u1'),
-    ('Reserved', 'u1'),
+    ('RxChannel', 'u1'),
     ('NAVBits', 'u4[8]'),
 )
 
@@ -261,7 +231,7 @@ GALRawCNAV = (
     ('ViterbiCount', 'u1'),
     ('Source', 'u1'),
     ('FreqNr', 'u1'),
-    ('Reserved', 'u1'),
+    ('RxChannel', 'u1'),
     ('NAVBits', 'u4[16]'),
 )
 
@@ -273,11 +243,11 @@ GEORawL1 = (
     ('ViterbiCount', 'u1'),
     ('Source', 'u1'),
     ('FreqNr', 'u1'),
-    ('Reserved', 'u1'),
+    ('RxChannel', 'u1'),
     ('NAVBits', 'u4[8]'),
 )
 
-CMPRaw = (
+GEORawL5 = (
     ('TOW', 'u4'),
     ('WNc', 'u2'),
     ('SVID', 'u1'),
@@ -285,8 +255,56 @@ CMPRaw = (
     ('ViterbiCount', 'u1'),
     ('Source', 'u1'),
     ('FreqNr', 'u1'),
+    ('RxChannel', 'u1'),
+    ('NAVBits', 'u4[8]'),
+)
+
+BDSRaw = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('SVID', 'u1'),
+    ('CRCPassed', 'u1'),
+    ('ViterbiCnt', 'u1'),
+    ('Source', 'u1'),
     ('Reserved', 'u1'),
-    ('NAVBits', 'u4[10]'),
+    ('RxChannel', 'u1'),
+    ('NAVBits', 'u4[10]')
+)
+
+BDSRawB1C = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('SVID', 'u1'),
+    ('CRCSF2', 'u1'),
+    ('CRCSF3', 'u1'),
+    ('Source', 'u1'),
+    ('Reserved', 'u1'),
+    ('RxChannel', 'u1'),
+    ('NAVBits', 'u4[57]'),
+)
+
+BDSRawB2a = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('SVID', 'u1'),
+    ('CRCPassed', 'u1'),
+    ('ViterbiCnt', 'u1'),
+    ('Source', 'u1'),
+    ('Reserved', 'u1'),
+    ('RxChannel', 'u1'),
+    ('NAVBits', 'u4[18]'),
+)
+
+BDSRawB2b = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('SVID', 'u1'),
+    ('CRCPassed', 'u1'),
+    ('Reserved1', 'u1'),
+    ('Source', 'u1'),
+    ('Reserved2', 'u1'),
+    ('RxChannel', 'u1'),
+    ('NAVBits', 'u4[31]'),
 )
 
 QZSRawL1CA = (
@@ -294,10 +312,10 @@ QZSRawL1CA = (
     ('WNc', 'u2'),
     ('SVID', 'u1'),
     ('CRCPassed', 'u1'),
-    ('ViterbiCount', 'u1'),
-    ('Source', 'u1'),
-    ('FreqNr', 'u1'),
     ('Reserved', 'u1'),
+    ('Source', 'u1'),
+    ('Reserved2', 'u1'),
+    ('RxChannel', 'u1'),
     ('NAVBits', 'u4[10]'),
 )
 
@@ -308,8 +326,8 @@ QZSRawL2C = (
     ('CRCPassed', 'u1'),
     ('ViterbiCount', 'u1'),
     ('Source', 'u1'),
-    ('FreqNr', 'u1'),
     ('Reserved', 'u1'),
+    ('RxChannel', 'u1'),
     ('NAVBits', 'u4[10]'),
 )
 
@@ -320,8 +338,20 @@ QZSRawL5 = (
     ('CRCPassed', 'u1'),
     ('ViterbiCount', 'u1'),
     ('Source', 'u1'),
-    ('FreqNr', 'u1'),
     ('Reserved', 'u1'),
+    ('RxChannel', 'u1'),
+    ('NAVBits', 'u4[10]'),
+)
+
+NAVICRaw = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('SVID', 'u1'),
+    ('CRCPassed', 'u1'),
+    ('ViterbiCount', 'u1'),
+    ('Source', 'u1'),
+    ('Reserved', 'u1'),
+    ('RxChannel', 'u1'),
     ('NAVBits', 'u4[10]'),
 )
 
@@ -330,7 +360,7 @@ GPSNav = (
     ('WNc', 'u2'),
     ('PRN', 'u1'),
     ('Reserved', 'u1'),
-    ('WN', 'i2'),
+    ('WN', 'u2'),
     ('CAorPonL2', 'u1'),
     ('URA', 'u1'),
     ('health', 'u1'),
@@ -339,7 +369,7 @@ GPSNav = (
     ('IODE2', 'u1'),
     ('IODE3', 'u1'),
     ('FitIntFlg', 'u1'),
-    ('Reserved', 'u1'),
+    ('Reserved2', 'u1'),
     ('T_gd', 'f4'),
     ('T_oc', 'u4'),
     ('A_f2', 'f4'),
@@ -381,7 +411,7 @@ GPSAlm = (
     ('a_f1', 'f4'),
     ('a_f0', 'f4'),
     ('WN_a', 'u1'),
-    ('AS_config', 'u1'),
+    ('config', 'u1'),
     ('health8', 'u1'),
     ('health6', 'u1'),
 )
@@ -414,6 +444,524 @@ GPSUtc = (
     ('WN_LSF', 'u1'),
     ('DN', 'u1'),
     ('DEL_t_LSF', 'i1'),
+)
+
+GPSCNav = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('PRN', 'u1'),
+    ('Flags', 'u1'),
+    ('WN', 'u2'),
+    ('health', 'u1'),
+    ('URA_ED', 'i1'),
+    ('t_op', 'u4'),
+    ('t_oe', 'u4'),
+    ('A', 'f8'),
+    ('A_DOT', 'f8'),
+    ('DELTA_N', 'f4'),
+    ('DELTA_N_DOT', 'f4'),
+    ('M_0', 'f8'),
+    ('e', 'f8'),
+    ('omega', 'f8'),
+    ('OMEGA_0', 'f8'),
+    ('OMEGADOT', 'f8'),
+    ('i_0', 'f8'),
+    ('IDOT', 'f4'),
+    ('C_is', 'f4'),
+    ('C_ic', 'f4'),
+    ('C_rs', 'f4'),
+    ('C_rc', 'f4'),
+    ('C_us', 'f4'),
+    ('C_uc', 'f4'),
+    ('t_oc', 'u4'),
+    ('URA_NED0', 'i1'),
+    ('URA_NED1', 'i1'),
+    ('URA_NED2', 'i1'),
+    ('WN_op', 'u1'),
+    ('a_f2', 'f4'),
+    ('a_f1', 'f4'),
+    ('a_f0', 'f8'),
+    ('T_gd', 'f4'),
+    ('ISC_L1CA', 'f4'),
+    ('ISC_L2C', 'f4'),
+    ('ISC_L5I5', 'f4'),
+    ('ISC_L5Q5', 'f4'),
+)
+
+GLONav = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('SVID', 'u1'),
+    ('FreqNr', 'u1'),
+    ('X', 'f8'),
+    ('Y', 'f8'),
+    ('Z', 'f8'),
+    ('Dx', 'f4'),
+    ('Dy', 'f4'),
+    ('Dz', 'f4'),
+    ('Ddx', 'f4'),
+    ('Ddy', 'f4'),
+    ('Ddz', 'f4'),
+    ('gamma', 'f4'),
+    ('tau', 'f4'),
+    ('dtau', 'f4'),
+    ('t_oe', 'u4'),
+    ('WN_toe', 'u2'),
+    ('P1', 'u1'),
+    ('P2', 'u1'),
+    ('E', 'u1'),
+    ('B', 'u1'),
+    ('tb', 'u2'),
+    ('M', 'u1'),
+    ('P', 'u1'),
+    ('l', 'u1'),
+    ('P4', 'u1'),
+    ('N_T', 'u2'),
+    ('F_T', 'u2'),
+    ('C', 'u1'),
+)
+
+GLOAlm = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('SVID', 'u1'),
+    ('FreqNr', 'u1'),
+    ('epsilon', 'f4'),
+    ('t_oa', 'u4'),
+    ('Delta_i', 'f4'),
+    ('Lambda', 'f4'),
+    ('t_ln', 'f4'),
+    ('omega', 'f4'),
+    ('Delta_T', 'f4'),
+    ('dDelta_t', 'f4'),
+    ('tau', 'f4'),
+    ('WN_a', 'u1'),
+    ('C', 'u1'),
+    ('N', 'u2'),
+    ('M', 'u1'),
+    ('N_4', 'u1'),
+)
+
+GLOTime = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('SVID', 'u1'),
+    ('FreqNr', 'u1'),
+    ('N_4', 'u1'),
+    ('KP', 'u1'),
+    ('N', 'u2'),
+    ('tau_GPS', 'f4'),
+    ('tau_c', 'f8'),
+    ('B1', 'f4'),
+    ('B2', 'f4'),
+)
+
+GALNav = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('SVID', 'u1'),
+    ('Source', 'u1'),
+    ('SQRT_A', 'f8'),
+    ('M_0', 'f8'),
+    ('E', 'f8'),
+    ('i_0', 'f8'),
+    ('Omega', 'f8'),
+    ('OMEGA_0', 'f8'),
+    ('OMEGADOT', 'f4'),
+    ('IDOT', 'f4'),
+    ('DELTA_N', 'f4'),
+    ('C_uc', 'f4'),
+    ('C_us', 'f4'),
+    ('C_rc', 'f4'),
+    ('C_rs', 'f4'),
+    ('C_ic', 'f4'),
+    ('C_is', 'f4'),
+    ('t_oe', 'u4'),
+    ('t_oc', 'u4'),
+    ('a_f2', 'f4'),
+    ('a_f1', 'f4'),
+    ('a_f0', 'f8'),
+    ('WNt_oe', 'u2'),
+    ('WNt_oc', 'u2'),
+    ('IODnav', 'u2'),
+    ('Health_OSSOL', 'u2'),
+    ('Health_PRS', 'u1'),
+    ('SISA_L1E5a', 'u1'),
+    ('SISA_L1E5b', 'u1'),
+    ('SISA_L1AE6A', 'u1'),
+    ('BGD_L1E5a', 'f4'),
+    ('BGD_L1E5b', 'f4'),
+    ('BGD_L1AE5b', 'f4'),
+    ('CNAVenc', 'u1'),
+)
+
+GALAlm = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('SVID', 'u1'),
+    ('Source', 'u1'),
+    ('e', 'f4'),
+    ('t_oa', 'u4'),
+    ('Delta_i', 'f4'),
+    ('OMEGADOT', 'f4'),
+    ('SQRT_A', 'f4'),
+    ('OMEGA_0', 'f4'),
+    ('Omega', 'f4'),
+    ('M_0', 'f4'),
+    ('a_f1', 'f4'),
+    ('a_f0', 'f4'),
+    ('WN_a', 'u1'),
+    ('SVID_A', 'u1'),
+    ('health', 'u2'),
+    ('IODa', 'u1'),
+)
+
+GALIon = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('SVID', 'u1'),
+    ('Source', 'u1'),
+    ('a_i0', 'f4'),
+    ('a_i1', 'f4'),
+    ('a_i2', 'f4'),
+    ('StormFlags', 'u1'),
+)
+
+GALUtc = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('SVID', 'u1'),
+    ('Source', 'u1'),
+    ('A_1', 'f4'),
+    ('A_0', 'f8'),
+    ('t_ot', 'u4'),
+    ('WN_ot', 'u1'),
+    ('DEL_t_LS', 'i1'),
+    ('WN_LSF', 'u1'),
+    ('DN', 'u1'),
+    ('DEL_t_LSF', 'i1'),
+)
+
+GALGstGps = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('SVID', 'u1'),
+    ('Source', 'u1'),
+    ('A_1G', 'f4'),
+    ('A_0G', 'f4'),
+    ('t_oG', 'u4'),
+    ('WN_oG', 'u1'),
+)
+
+GALSARRLM = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('SVID', 'u1'),
+    ('Source', 'u1'),
+    ('RLMLength', 'u1'),
+    ('Reserved', 'u1[3]'),
+    ('RLMBits', 'u4*'),
+)
+
+CosmosStatus = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('Status', 'u1'),
+)
+
+RFStatus = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('N', 'u1'),
+    ('SBLength', 'u1'),
+    ('Flags', 'u1'),
+)
+
+GISAction = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('CommentLn', 'u2'),
+    ('ItemIDMSB', 'u4'),
+    ('ItemIDLSB', 'u4'),
+    ('Action', 'u1'),
+    ('Trigger', 'u1'),
+    ('Database', 'u1'),
+    ('Reserved', 'u1'),
+    ('Comment', 'c1*'),
+)
+
+GISStatus = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('N', 'u1'),
+    ('SBLength', 'u1'),
+)
+
+DatabaseStatus = (
+    ('Database', 'u1'),
+    ('OnlineStatus', 'u1'),
+    ('Error', 'u1'),
+    ('Reserved', 'u1'),
+    ('NrItems', 'u4'),
+    ('NrNotSync', 'u4'),
+)
+
+RFBand = (
+    ('Frequency', 'u4'),
+    ('Bandwidth', 'u2'),
+    ('Info', 'u1'),
+)
+
+FugroStatus = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('Status', 'u4'),
+    ('SubStartingTime', 'i4'),
+    ('SubExpirationTime', 'i4'),
+    ('SubHourGlass', 'i4'),
+    ('SubscribedMode', 'u4'),
+    ('SubCurrentMode', 'u4'),
+    ('SubLinkVector', 'u4'),
+    ('CRCGoodCount', 'u4'),
+    ('CRCBadCount', 'u4'),
+)
+
+NTRIPClientStatus = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('N', 'u1'),
+    ('SBLength', 'u1'),
+)
+
+NTRIPClientConnection = (
+    ('CDIndex', 'u1'),
+    ('Status', 'u1'),
+    ('ErrorCode', 'u1'),
+    ('Info', 'u1'),
+)
+
+NTRIPServerStatus = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('N', 'u1'),
+    ('SBLength', 'u1'),
+)
+
+NTRIPServerConnection = (
+    ('CDIndex', 'u1'),
+    ('Status', 'u1'),
+    ('ErrorCode', 'u1'),
+    ('Info', 'u1'),
+)
+
+DiskStatus = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('N', 'u1'),
+    ('SBLength', 'u1'),
+)
+
+DiskData = (
+    ('DiskID', 'u1'),
+    ('Status', 'u1'),
+    ('DiskUsageMSB', 'u2'),
+    ('DiskUsageLSB', 'u4'),
+    ('DiskSize', 'u4'),
+    ('CreateDeleteCount', 'u1'),
+    ('Error', 'u1'),
+)
+
+P2PPStatus = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('N', 'u1'),
+    ('SBLength', 'u1'),
+)
+
+QualityInd = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('N', 'u1'),
+    ('Reserved', 'u1'),
+    ('Indicators', 'u2*'),
+)
+
+P2PPSession = (
+    ('SessionID', 'u1'),
+    ('Port', 'u1'),
+    ('Status', 'u1'),
+    ('ErrorCode', 'u1'),
+)
+
+GALAuthStatus = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('OSNMAStatus', 'u2'),
+    ('TrustedTimeDelta', 'f4'),
+    ('GalActiveMask', 'u8'),
+    ('GalAuthenticMask', 'u8'),
+    ('GpsActiveMask', 'u8'),
+    ('GpsAuthenticMask', 'u8'),
+)
+
+IQCorr = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('N', 'u1'),
+    ('SBLength', 'u1'),
+    ('CorrDuration', 'u1'),
+    ('CumClkJumps', 'i1'),
+    ('Reserved', 'u1[2]')
+)
+
+IQCorr_CorrChannel = (
+    ('RxChannel', 'u1'),
+    ('Type', 'u1'),
+    ('SVID', 'u1'),
+    ('CorrIQ_MSB', 'u1'),
+    ('CorrI_LSB', 'u1'),
+    ('CorrQ_LSB', 'u1'),
+    ('CarrierPhaseLSB', 'u2'),
+)
+
+DynDNSStatus = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('Status', 'u1'),
+    ('ErrorCode', 'u1'),
+    ('IPAddress', 'u1[16]'),
+)
+
+GALRawCNAV = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('SVID', 'u1'),
+    ('CRCPassed', 'u1'),
+    ('ViterbiCount', 'u1'),
+    ('Source', 'u1'),
+    ('FreqNr', 'u1'),
+    ('Reserved', 'u1'),
+    ('NAVBits', 'u4[16]'),
+)
+
+QZSAlm =(
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('PRN', 'u1'),
+    ('Reserved', 'u1'),
+    ('e', 'f4'),
+    ('t_oa', 'u4'),
+    ('delta_i', 'f4'),
+    ('OMEGADOT', 'f4'),
+    ('SQRT_A', 'f4'),
+    ('OMEGA_0', 'f4'),
+    ('omega', 'f4'),
+    ('M_0', 'f4'),
+    ('a_f1', 'f4'),
+    ('a_f0', 'f4'),
+    ('WN_a', 'u1'),
+    ('Reserved2', 'u1'),
+    ('health8', 'u1'),
+    ('health6', 'u1'),
+)
+
+CMPRaw = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('SVID', 'u1'),
+    ('CRCPassed', 'u1'),
+    ('ViterbiCount', 'u1'),
+    ('Source', 'u1'),
+    ('FreqNr', 'u1'),
+    ('Reserved', 'u1'),
+    ('NAVBits', 'u4[10]'),
+)
+
+QZSNav = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('PRN', 'u1'),
+    ('Reserved', 'u1'),
+    ('WN', 'u2'),
+    ('CAorPonL2', 'u1'),
+    ('URA', 'u1'),
+    ('health', 'u1'),
+    ('L2DataFlag', 'u1'),
+    ('IODC', 'u2'),
+    ('IODE2', 'u1'),
+    ('IODE3', 'u1'),
+    ('FitIntFlg', 'u1'),
+    ('Reserved2', 'u1'),
+    ('T_gd', 'f4'),
+    ('t_oc', 'u4'),
+    ('a_f2', 'f4'),
+    ('a_f1', 'f4'),
+    ('a_f0', 'f4'),
+    ('C_rs', 'f4'),
+    ('DEL_N', 'f4'),
+    ('M_0', 'f8'),
+    ('C_uc', 'f4'),
+    ('e', 'f8'),
+    ('C_us', 'f4'),
+    ('SQRT_A', 'f8'),
+    ('t_oe', 'u4'),
+    ('C_ic', 'f4'),
+    ('OMEGA_0', 'f8'),
+    ('C_is', 'f4'),
+    ('i_0', 'f8'),
+    ('C_rc', 'f4'),
+    ('omega', 'f8'),
+    ('OMEGADOT', 'f4'),
+    ('IDOT', 'f4'),
+    ('WNt_oc', 'u2'),
+    ('WNt_oe', 'u2'),
+)
+
+RxMessage = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('Type', 'u1'),
+    ('Severity', 'u1'),
+    ('MessageID', 'u4'),
+    ('StringLn', 'u2'),
+    ('Reserved2', 'u1[2]'),
+    ('Message', 'c1*'),
+)
+
+PosLocal = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('Mode', 'u1'),
+    ('Error', 'u1'),
+    ('Lat', 'f8'),
+    ('Lon', 'f8'),
+    ('Alt', 'f8'),
+    ('Datum', 'u1'),
+)
+
+GPSCNav = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('PRN', 'u1'),
+    ('Flags', 'u1'),
+    ('WN', 'u2'),
+    ('health', 'u1'),
+    ('URA_ED', 'i1'),
+    ('t_op', 'u4'),
+    ('t_oe', 'u4'),
+    ('A', 'f8'),
+    ('A_DOT', 'f8'),
+    ('DELTA_N', 'f4'),
+    ('DELTA_N_DOT', 'f4'),
+    ('M_0', 'f8'),
+    ('e', 'f8'),
+    ('omega', 'f8'),
+    ('OMEGA_0', 'f8'),
+    ('OMEGADOT', 'f8'),
+    ('i_0', 'f8'),
+    ('IDOT', 'f4'),
+    ('C_is', 'f4'),
+    ('C_ic', 'f4'),
 )
 
 GLONav = (
@@ -467,7 +1015,6 @@ GLOAlm = (
     ('N', 'u2'),
     ('M', 'u1'),
     ('N_4', 'u1'),
-    ('Reserved', 'u1[2]'),
 )
 
 GLOTime = (
@@ -809,7 +1356,6 @@ GEOServiceLevel_ServiceRegion = (
     ('Reserved', 'u1'),
 )
 
-
 GEOClockEphCovMatrix = (
     ('TOW', 'u4'),
     ('WNc', 'u2'),
@@ -818,6 +1364,16 @@ GEOClockEphCovMatrix = (
     ('N', 'u1'),
     ('SBLength', 'u1'),
     ('Reserved', 'u1[2]'),
+)
+
+RTCMDatum = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('SourceCRS', 'c1[32]'),
+    ('TargetCRS', 'c1[32]'),
+    ('Datum', 'u1'),
+    ('HeightType', 'u1'),
+    ('QualityInd', 'u1'),
 )
 
 GEOClockEphCovMatrix_CovMatrix = (
@@ -836,7 +1392,7 @@ GEOClockEphCovMatrix_CovMatrix = (
     ('E34', 'i2'),
 )
 
-PVTCartesian_v2 = (
+PVTCartesian = (
     ('TOW', 'u4'),
     ('WNc', 'u2'),
     ('Mode', 'u1'),
@@ -859,8 +1415,6 @@ PVTCartesian_v2 = (
     ('MeanCorrAge', 'u2'),
     ('SignalInfo', 'u4'),
     ('AlertFlag', 'u1'),
-    ('NrBases', 'u1'),
-    ('Reserved', 'u1[2]'),
 )
 
 PVTGeodetic = (
@@ -958,7 +1512,7 @@ VelCovGeodetic = (
     ('Cov_VuDt', 'f4'),
 )
 
-DOP_v2 = (
+DOP = (
     ('TOW', 'u4'),
     ('WNc', 'u2'),
     ('NrSV', 'u1'),
@@ -971,6 +1525,89 @@ DOP_v2 = (
     ('VPL', 'f4'),
 )
 
+BDSNav = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('PRN', 'u1'),
+    ('Reserved', 'u1'),
+    ('WN', 'u2'),
+    ('URA', 'u1'),
+    ('SatH1', 'u1'),
+    ('IODC', 'u1'),
+    ('IODE', 'u1'),
+    ('Reserved2', 'u2'),
+    ('T_GD1', 'f4'),
+    ('T_GD2', 'f4'),
+    ('t_oc', 'u4'),
+    ('a_f2', 'f4'),
+    ('a_f1', 'f4'),
+    ('a_f0', 'f4'),
+    ('C_rs', 'f4'),
+    ('DEL_N', 'f4'),
+    ('M_0', 'f8'),
+    ('C_uc', 'f4'),
+    ('e', 'f8'),
+    ('C_us', 'f4'),
+    ('SQRT_A', 'f8'),
+    ('t_oe', 'u4'),
+    ('C_ic', 'f4'),
+    ('OMEGA_0', 'f8'),
+    ('C_is', 'f4'),
+    ('i_0', 'f8'),
+    ('C_rc', 'f4'),
+    ('omega', 'f8'),
+    ('OMEGADOT', 'f4'),
+    ('IDOT', 'f4'),
+    ('WNt_oc', 'u2'),
+    ('WNt_oe', 'u2'),
+)
+
+BDSAlm = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('PRN', 'u1'),
+    ('WN_a', 'u1'),
+    ('t_oa', 'u4'),
+    ('SQRT_A', 'f4'),
+    ('e', 'f4'),
+    ('omega', 'f4'),
+    ('M_0', 'f4'),
+    ('OMEGA_0', 'f4'),
+    ('OMEGADOT', 'f4'),
+    ('delta_i', 'f4'),
+    ('a_f0', 'f4'),
+    ('a_f1', 'f4'),
+    ('Health', 'u2'),
+    ('Reserved', 'u1[2]'),
+)
+
+BDSIon = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('PRN', 'u1'),
+    ('Reserved', 'u1'),
+    ('alpha_0', 'f4'),
+    ('alpha_1', 'f4'),
+    ('alpha_2', 'f4'),
+    ('alpha_3', 'f4'),
+    ('beta_0', 'f4'),
+    ('beta_1', 'f4'),
+    ('beta_2', 'f4'),
+    ('beta_3', 'f4'),
+)
+
+BDSUtc = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('PRN', 'u1'),
+    ('Reserved', 'u1'),
+    ('A_1', 'f4'),
+    ('A_0', 'f8'),
+    ('DEL_t_LS', 'i1'),
+    ('WN_LSF', 'u1'),
+    ('DN', 'u1'),
+    ('DEL_t_LSF', 'i1'),
+)
 
 PosCart = (
     ('TOW', 'u4'),
@@ -1386,6 +2023,44 @@ ExtEvent = (
     ('Reserved', 'u1[2]'),
 )
 
+ExtEventAttEuler = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('NrSV', 'u1'),
+    ('Error', 'u1'),
+    ('Mode', 'u2'),
+    ('Reserved', 'u2'),
+    ('Heading', 'f4'),
+    ('Pitch', 'f4'),
+    ('Roll', 'f4'),
+    ('PitchDot', 'f4'),
+    ('RollDot', 'f4'),
+    ('HeadingDot', 'f4'),
+)
+
+ExtEventBaseVectGeod = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('N', 'u1'),
+    ('SBLength', 'u1'),
+)
+
+ExtEventVectorInfoGeod = (
+    ('NrSV', 'u1'),
+    ('Error', 'u1'),
+    ('Mode', 'u1'),
+    ('Misc', 'u1'),
+    ('DeltaEast', 'f8'),
+    ('DeltaNorth', 'f8'),
+    ('DeltaUp', 'f8'),
+    ('DeltaVe', 'f4'),
+    ('DeltaVn', 'f4'),
+    ('DeltaVu', 'f4'),
+    ('Azimuth', 'u2'),
+    ('Elevation', 'i2'),
+    ('ReferenceID', 'u2'),
+)
+
 ExtEventPVTCartesian = (
     ('TOW', 'u4'),
     ('WNc', 'u2'),
@@ -1460,6 +2135,38 @@ BaseStation = (
     ('X', 'f8'),
     ('Y', 'f8'),
     ('Z', 'f8'),
+)
+
+LBandRaw = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('N', 'u2'),
+    ('Frequency', 'u4'),
+    ('UserData', 'u1*'),
+)
+
+LBandBeams = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('N', 'u1'),
+    ('SBLength', 'u1'),
+)
+
+Beaminfo = (
+    ('SVID', 'u1'),
+    ('SatName', 'c1[9]'),
+    ('SatLongitude', 'i2'),
+    ('BeamFreq', 'u4'),
+)
+
+EncapsulatedOutput = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('Mode', 'u1'),
+    ('Reserved', 'u1'),
+    ('N', 'u2'),
+    ('ReservedId', 'u2'),
+    ('Payload', 'u1*'),
 )
 
 LBandTrackerStatus = (
@@ -1657,6 +2364,17 @@ IPStatus = (
     ('IPAddress', 'u1[16]'),
     ('Gateway', 'u1[16]'),
     ('Netmask', 'u1'),
+)
+
+PosProjected = (
+    ('TOW', 'u4'),
+    ('WNc', 'u2'),
+    ('Mode', 'u1'),
+    ('Error', 'u1'),
+    ('Northing', 'f8'),
+    ('Easting', 'f8'),
+    ('Alt', 'f8'),
+    ('Datum', 'u1'),
 )
 
 ReceiverSetup = (

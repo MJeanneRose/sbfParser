@@ -20,7 +20,6 @@ ctypedef double f8
 ctypedef char c1
 
 cdef dict BLOCKPARSERS
-cdef dict BLOCKPARSERS_BYTES
 
 
 cdef packed struct MeasEpoch:
@@ -30,8 +29,8 @@ cdef packed struct MeasEpoch:
     u1 SB1Length
     u1 SB2Length
     u1 CommonFlags
-    i1 CumClkJumps
-    u1 Reserved_0
+    u1 CumClkJumps
+    u1 Reserved
 
 
 cdef packed struct MeasEpoch_Type_1:
@@ -69,7 +68,7 @@ cdef packed struct MeasExtra:
     f4 DopplerVarFactor
 
 
-cdef packed struct MeasExtra_MeasExtraChannel:
+cdef packed struct MeasExtraChannelSub:
     u1 RxChannel
     u1 Type
     i2 MPCorrection
@@ -78,28 +77,9 @@ cdef packed struct MeasExtra_MeasExtraChannel:
     u2 CarrierVar
     u2 LockTime
     u1 CumLossCont
-    u1 Reserved_0
+    u1 CarMPCorr
     u1 Info
-
-
-cdef packed struct IQCorr:
-    u4 TOW
-    u2 WNc
-    u1 N
-    u1 SBLength
-    u1 CorrDuration
-    i1 CumClkJumps
-    u1[2] Reserved_0
-
-
-cdef packed struct IQCorr_CorrChannel:
-    u1 RxChannel
-    u1 Type
-    u1 SVID
-    u1 CorrIQ_MSB
-    u1 CorrI_LSB
-    u1 CorrQ_LSB
-    u2 CarrierPhaseLSB
+    u1 Misc
 
 
 cdef packed struct EndOfMeas:
@@ -115,7 +95,7 @@ cdef packed struct GPSRawCA:
     u1 ViterbiCount
     u1 Source
     u1 FreqNr
-    u1 Reserved_0
+    u1 RxChannel
     u4[10] NAVBits
 
 
@@ -127,19 +107,8 @@ cdef packed struct GPSRawL2C:
     u1 ViterbiCount
     u1 Source
     u1 FreqNr
-    u1 Reserved_0
+    u1 RxChannel
     u4[10] NAVBits
-
-
-cdef packed struct GALAuthStatus:
-    u4 TOW
-    u2 WNc
-    u2 OSNMAStatus
-    f4 TrustedTimeDelta
-    u8 GalActiveMask
-    u8 GalAuthenticMask
-    u8 GpsActiveMask
-    u8 GpsAuthenticMask
 
 
 cdef packed struct GPSRawL5:
@@ -150,7 +119,7 @@ cdef packed struct GPSRawL5:
     u1 ViterbiCount
     u1 Source
     u1 FreqNr
-    u1 Reserved_0
+    u1 RxChannel
     u4[10] NAVBits
 
 
@@ -162,7 +131,7 @@ cdef packed struct GLORawCA:
     u1 ViterbiCount
     u1 Source
     u1 FreqNr
-    u1 Reserved_0
+    u1 RxChannel
     u4[3] NAVBits
 
 
@@ -174,7 +143,7 @@ cdef packed struct GALRawFNAV:
     u1 ViterbiCount
     u1 Source
     u1 FreqNr
-    u1 Reserved_0
+    u1 RxChannel
     u4[8] NAVBits
 
 
@@ -186,7 +155,7 @@ cdef packed struct GALRawINAV:
     u1 ViterbiCount
     u1 Source
     u1 FreqNr
-    u1 Reserved_0
+    u1 RxChannel
     u4[8] NAVBits
 
 
@@ -198,7 +167,7 @@ cdef packed struct GALRawCNAV:
     u1 ViterbiCount
     u1 Source
     u1 FreqNr
-    u1 Reserved_0
+    u1 RxChannel
     u4[16] NAVBits
 
 
@@ -210,11 +179,11 @@ cdef packed struct GEORawL1:
     u1 ViterbiCount
     u1 Source
     u1 FreqNr
-    u1 Reserved_0
+    u1 RxChannel
     u4[8] NAVBits
 
 
-cdef packed struct CMPRaw:
+cdef packed struct GEORawL5:
     u4 TOW
     u2 WNc
     u1 SVID
@@ -222,8 +191,56 @@ cdef packed struct CMPRaw:
     u1 ViterbiCount
     u1 Source
     u1 FreqNr
-    u1 Reserved_0
+    u1 RxChannel
+    u4[8] NAVBits
+
+
+cdef packed struct BDSRaw:
+    u4 TOW
+    u2 WNc
+    u1 SVID
+    u1 CRCPassed
+    u1 ViterbiCnt
+    u1 Source
+    u1 Reserved
+    u1 RxChannel
     u4[10] NAVBits
+
+
+cdef packed struct BDSRawB1C:
+    u4 TOW
+    u2 WNc
+    u1 SVID
+    u1 CRCSF2
+    u1 CRCSF3
+    u1 Source
+    u1 Reserved
+    u1 RxChannel
+    u4[57] NAVBits
+
+
+cdef packed struct BDSRawB2a:
+    u4 TOW
+    u2 WNc
+    u1 SVID
+    u1 CRCPassed
+    u1 ViterbiCnt
+    u1 Source
+    u1 Reserved
+    u1 RxChannel
+    u4[18] NAVBits
+
+
+cdef packed struct BDSRawB2b:
+    u4 TOW
+    u2 WNc
+    u1 SVID
+    u1 CRCPassed
+    u1 Reserved1
+    u1 Source
+    u1 Reserved2
+    u1 RxChannel
+    u4[31] NAVBits
 
 
 cdef packed struct QZSRawL1CA:
@@ -231,10 +248,10 @@ cdef packed struct QZSRawL1CA:
     u2 WNc
     u1 SVID
     u1 CRCPassed
-    u1 ViterbiCount
+    u1 Reserved
     u1 Source
-    u1 FreqNr
-    u1 Reserved_0
+    u1 Reserved2
+    u1 RxChannel
     u4[10] NAVBits
 
 
@@ -245,8 +262,8 @@ cdef packed struct QZSRawL2C:
     u1 CRCPassed
     u1 ViterbiCount
     u1 Source
-    u1 FreqNr
-    u1 Reserved_0
+    u1 Reserved
+    u1 RxChannel
     u4[10] NAVBits
 
 
@@ -257,8 +274,20 @@ cdef packed struct QZSRawL5:
     u1 CRCPassed
     u1 ViterbiCount
     u1 Source
-    u1 FreqNr
-    u1 Reserved_0
+    u1 Reserved
+    u1 RxChannel
+    u4[10] NAVBits
+
+
+cdef packed struct NAVICRaw:
+    u4 TOW
+    u2 WNc
+    u1 SVID
+    u1 CRCPassed
+    u1 ViterbiCount
+    u1 Source
+    u1 Reserved
+    u1 RxChannel
     u4[10] NAVBits
 
 
@@ -266,8 +295,8 @@ cdef packed struct GPSNav:
     u4 TOW
     u2 WNc
     u1 PRN
-    u1 Reserved_0
-    i2 WN
+    u1 Reserved
+    u2 WN
     u1 CAorPonL2
     u1 URA
     u1 health
@@ -276,7 +305,7 @@ cdef packed struct GPSNav:
     u1 IODE2
     u1 IODE3
     u1 FitIntFlg
-    u1 Reserved_1
+    u1 Reserved2
     f4 T_gd
     u4 T_oc
     f4 A_f2
@@ -318,7 +347,7 @@ cdef packed struct GPSAlm:
     f4 a_f1
     f4 a_f0
     u1 WN_a
-    u1 AS_config
+    u1 config
     u1 health8
     u1 health6
 
@@ -327,7 +356,7 @@ cdef packed struct GPSIon:
     u4 TOW
     u2 WNc
     u1 PRN
-    u1 Reserved_0
+    u1 Reserved
     f4 alpha_0
     f4 alpha_1
     f4 alpha_2
@@ -342,7 +371,7 @@ cdef packed struct GPSUtc:
     u4 TOW
     u2 WNc
     u1 PRN
-    u1 Reserved_0
+    u1 Reserved
     f4 A_1
     f8 A_0
     u4 t_ot
@@ -351,6 +380,48 @@ cdef packed struct GPSUtc:
     u1 WN_LSF
     u1 DN
     i1 DEL_t_LSF
+
+
+cdef packed struct GPSCNav:
+    u4 TOW
+    u2 WNc
+    u1 PRN
+    u1 Flags
+    u2 WN
+    u1 health
+    i1 URA_ED
+    u4 t_op
+    u4 t_oe
+    f8 A
+    f8 A_DOT
+    f4 DELTA_N
+    f4 DELTA_N_DOT
+    f8 M_0
+    f8 e
+    f8 omega
+    f8 OMEGA_0
+    f8 OMEGADOT
+    f8 i_0
+    f4 IDOT
+    f4 C_is
+    f4 C_ic
+    f4 C_rs
+    f4 C_rc
+    f4 C_us
+    f4 C_uc
+    u4 t_oc
+    i1 URA_NED0
+    u1 URA_NED1
+    u1 URA_NED2
+    u1 WN_op
+    f4 a_f2
+    f4 a_f1
+    f8 a_f0
+    f4 T_gd
+    f4 ISC_L1CA
+    f4 ISC_L2C
+    f4 ISC_L5I5
+    f4 ISC_L5Q5
 
 
 cdef packed struct GLONav:
@@ -383,6 +454,28 @@ cdef packed struct GLONav:
     u1 P4
     u2 N_T
     u2 F_T
+    u1 C
+
+
+cdef packed struct GLOAlm:
+    u4 TOW
+    u2 WNc
+    u1 SVID
+    u1 FreqNr
+    f4 epsilon
+    u4 t_oa
+    f4 Delta_i
+    f4 Lambda
+    f4 t_ln
+    f4 omega
+    f4 Delta_T
+    f4 dDelta_t
+    f4 tau
+    u1 WN_a
+    u1 C
+    u2 N
+    u1 M
+    u1 N_4
 
 
 cdef packed struct GLOTime:
@@ -428,14 +521,15 @@ cdef packed struct GALNav:
     u2 WNt_oc
     u2 IODnav
     u2 Health_OSSOL
-    u1 Reserved_0
+    u1 Health_PRS
+    u1 SISA_L1AE6A
     u1 SISA_L1E5a
     u1 SISA_L1E5b
     u1 Reserved_1
     f4 BGD_L1E5a
     f4 BGD_L1E5b
-    f4 Reserved_2
-    u1 CNAVEncrypt
+    f4 BGD_L1AE6A
+    u1 CNAVenc
 
 
 cdef packed struct GALAlm:
@@ -447,7 +541,7 @@ cdef packed struct GALAlm:
     u4 t_oa
     f4 Delta_i
     f4 OMEGADOT
-    f4 DeltaSQRT_A
+    f4 SQRT_A
     f4 OMEGA_0
     f4 Omega
     f4 M_0
@@ -457,7 +551,6 @@ cdef packed struct GALAlm:
     u1 SVID_A
     u2 health
     u1 IODa
-    u1[3] Reserved_0
 
 
 cdef packed struct GALIon:
@@ -493,7 +586,7 @@ cdef packed struct GALGstGps:
     u1 Source
     f4 A_1G
     f4 A_0G
-    u1 t_oG
+    u4 t_oG
     u1 WN_oG
 
 
@@ -503,8 +596,262 @@ cdef packed struct GALSARRLM:
     u1 SVID
     u1 Source
     u1 RLMLength
-    u1[3] Reserved_0
+    u1[3] Reserved
     u4 * RLMBits
+
+
+cdef packed struct IQCorr:
+    u4 TOW
+    u2 WNc
+    u1 N
+    u1 SBLength
+    u1 CorrDuration
+    i1 CumClkJumps
+    u1[2] Reserved_0
+
+
+cdef packed struct IQCorr_CorrChannel:
+    u1 RxChannel
+    u1 Type
+    u1 SVID
+    u1 CorrIQ_MSB
+    u1 CorrI_LSB
+    u1 CorrQ_LSB
+    u2 CarrierPhaseLSB
+
+
+cdef packed struct CosmosStatus:
+    u4 TOW
+    u2 WNc
+    u1 Status
+
+
+cdef packed struct RFStatus:
+    u4 TOW
+    u2 WNc
+    u1 N
+    u1 SBLength
+    u1 Flags
+    u1[3] Reserved
+
+
+cdef packed struct RFBand:
+    u4 Frequency
+    u2 Bandwidth
+    u1 Info
+
+
+cdef packed struct FugroStatus:
+    u4 TOW
+    u2 WNc
+    u1[2] Reserved
+    u4 Status
+    i4 SubStartingTime
+    i4 SubExpirationTime
+    i4 SubHourGlass
+    u4 SubscribedMode
+    u4 SubCurrentMode
+    u4 SubLinkVector
+    u4 CRCGoodCount
+    u4 CRCBadCount
+
+
+cdef packed struct NTRIPClientStatus:
+    u4 TOW
+    u2 WNc
+    u1 N
+    u1 SBLength
+
+
+cdef packed struct NTRIPClientConnection:
+    u1 CDIndex
+    u1 Status
+    u1 ErrorCode
+    u1 Info
+
+
+cdef packed struct NTRIPServerStatus:
+    u4 TOW
+    u2 WNc
+    u1 N
+    u1 SBLength
+
+
+cdef packed struct QualityInd:
+    u4 TOW
+    u2 WNc
+    u1 N
+    u1 Reserved
+    u2 * Indicators
+
+
+cdef packed struct NTRIPServerConnection:
+    u1 CDIndex
+    u1 Status
+    u1 ErrorCode
+    u1 Info
+
+
+cdef packed struct DiskStatus:
+    u4 TOW
+    u2 WNc
+    u1 N
+    u1 SBLength
+    u1[4] Reserved
+
+
+cdef packed struct DiskData:
+    u1 DiskID
+    u1 Status
+    u2 DiskUsageMSB
+    u4 DiskUsageLSB
+    u4 DiskSize
+    u1 CreateDeleteCount
+    u1 Error
+
+
+cdef packed struct P2PPStatus:
+    u4 TOW
+    u2 WNc
+    u1 N
+    u1 SBLength
+
+
+cdef packed struct P2PPSession:
+    u1 SessionID
+    u1 Port
+    u1 Status
+    u1 ErrorCode
+
+
+cdef packed struct DynDNSStatus:
+    u4 TOW
+    u2 WNc
+    u1 Status
+    u1 ErrorCode
+    u1[16] IPAddress
+
+
+cdef packed struct GALAuthStatus:
+    u4 TOW
+    u2 WNc
+    u2 OSNMAStatus
+    f4 TrustedTimeDelta
+    u8 GalActiveMask
+    u8 GalAuthenticMask
+    u8 GpsActiveMask
+    u8 GpsAuthenticMask
+
+
+cdef packed struct CMPRaw:
+    u4 TOW
+    u2 WNc
+    u1 SVID
+    u1 CRCPassed
+    u1 ViterbiCount
+    u1 Source
+    u1 FreqNr
+    u1 Reserved_0
+    u4[10] NAVBits
+
+
+cdef packed struct QZSAlm:
+    u4 TOW
+    u2 WNc
+    u1 PRN
+    u1 Reserved
+    f4 e
+    u4 t_oa
+    f4 delta_i
+    f4 OMEGADOT
+    f4 SQRT_A
+    f4 OMEGA_0
+    f4 omega
+    f4 M_0
+    f4 a_f1
+    f4 a_f0
+    u1 WN_a
+    u1 Reserved2
+    u1 health8
+    u1 health6  
+
+
+cdef packed struct GISStatus:
+    u4 TOW
+    u2 WNc
+    u1 N
+    u1 SBLength
+
+
+cdef packed struct DatabaseStatus:
+    u1 Database
+    u1 OnlineStatus
+    u1 Error
+    u1 Reserved
+    u4 NrItems
+    u4 NrNotSync
+
+
+cdef packed struct QZSNav:
+    u4 TOW
+    u2 WNc
+    u1 PRN
+    u1 Reserved
+    u2 WN
+    u1 CAorPonL2
+    u1 URA
+    u1 health
+    u1 L2DataFlag
+    u2 IODC
+    u1 IODE2
+    u1 IODE3
+    u1 FitIntFlg
+    u1 Reserved2
+    f4 T_gd
+    u4 t_oc
+    f4 a_f2
+    f4 a_f1
+    f4 a_f0
+    f4 C_rs
+    f4 DEL_N
+    f8 M_0
+    f4 C_uc
+    f8 e
+    f4 C_us
+    f8 SQRT_A
+    u4 t_oe
+    f4 C_ic
+    f8 OMEGA_0
+    f4 C_is
+    f8 i_0
+    f4 C_rc
+    f8 omega
+    f4 OMEGADOT
+    f4 IDOT
+    u2 WNt_oc
+    u2 WNt_oe
+
+
+cdef packed struct PosLocal:
+    u4 TOW
+    u2 WNc
+    u1 Mode
+    u1 Error
+    f8 Lat
+    f8 Lon
+    f8 Alt
+    u1 Datum
+
+
+cdef packed struct RxMessage:
+    u4 TOW
+    u2 WNc
+    u1 Type
+    u1 Severity
+    u4 MessageID
+    u2 StringLn
+    u1[2] Reserved2
+    c1 * Message
 
 
 cdef packed struct GEOMT00:
@@ -743,7 +1090,7 @@ cdef packed struct GEOClockEphCovMatrix_CovMatrix:
     i2 E34
 
 
-cdef packed struct PVTCartesian_v2:
+cdef packed struct PVTCartesian:
     u4 TOW
     u2 WNc
     u1 Mode
@@ -766,8 +1113,6 @@ cdef packed struct PVTCartesian_v2:
     u2 MeanCorrAge
     u4 SignalInfo
     u1 AlertFlag
-    u1 NrBases
-    u1[2] Reserved_0
 
 
 cdef packed struct PVTGeodetic:
@@ -812,6 +1157,40 @@ cdef packed struct PosCovCartesian:
     f4 Cov_yz
     f4 Cov_yb
     f4 Cov_zb
+
+
+cdef packed struct RTCMDatum:
+    u4 TOW
+    u2 WNc
+    c1[32] SourceCRS
+    c1[32] TargetCRS
+    u1 Datum
+    u1 HeightType
+    u1 QualityInd
+
+
+cdef packed struct GISAction:
+    u4 TOW
+    u2 WNc
+    u2 CommentLn
+    u4 ItemIDMSB
+    u4 ItemIDLSB
+    u1 Action
+    u1 Trigger
+    u1 Database
+    u1 Reserved
+    c1 * Comment
+
+
+cdef packed struct PosProjected:
+    u4 TOW
+    u2 WNc
+    u1 Mode
+    u1 Error
+    f8 Northing
+    f8 Easting
+    f8 Alt
+    u1 Datum
 
 
 cdef packed struct PosCovGeodetic:
@@ -865,11 +1244,11 @@ cdef packed struct VelCovGeodetic:
     f4 Cov_VuDt
 
 
-cdef packed struct DOP_v2:
+cdef packed struct DOP:
     u4 TOW
     u2 WNc
     u1 NrSV
-    u1 Reserved_0
+    u1 Reserved
     u2 PDOP
     u2 TDOP
     u2 HDOP
@@ -877,6 +1256,70 @@ cdef packed struct DOP_v2:
     f4 HPL
     f4 VPL
 
+
+cdef packed struct BDSIon:
+    u4 TOW
+    u2 WNc
+    u1 PRN
+    u1 Reserved
+    f4 alpha_0
+    f4 alpha_1
+    f4 alpha_2
+    f4 alpha_3
+    f4 beta_0
+    f4 beta_1
+    f4 beta_2
+    f4 beta_3
+
+
+cdef packed struct BDSUtc:
+    u4 TOW
+    u2 WNc
+    u1 PRN
+    u1 Reserved
+    f4 A_1
+    f8 A_0
+    i1 DEL_t_LS
+    u1 WN_LSF
+    u1 DN
+    i1 DEL_t_LSF
+
+
+cdef packed struct BDSNav:
+    u4 TOW
+    u2 WNc
+    u1 PRN
+    u1 Reserved
+    u2 WN
+    u1 URA
+    u1 SatH1
+    u1 IODC
+    u1 IODE
+    u2 Reserved2
+    f4 T_GD1
+    f4 T_GD2
+    u4 t_oc
+    f4 a_f2
+    f4 a_f1
+    f4 a_f0
+    f4 C_rs
+    f4 DEL_N
+    f8 M_0
+    f4 C_uc
+    f8 e
+    f4 C_us
+    f8 SQRT_A
+    u4 t_oe
+    f4 C_ic
+    f8 OMEGA_0
+    f4 C_is
+    f8 i_0
+    f4 C_rc
+    f8 omega
+    f4 OMEGADOT
+    f4 IDOT
+    u2 WNt_oc
+    u2 WNt_oe
 
 cdef packed struct PosCart:
     u4 TOW
@@ -1225,6 +1668,25 @@ cdef packed struct AuxAntPositions_AuxAntPosition:
     f8 UpVel
 
 
+cdef packed struct BDSAlm:
+    u4 TOW
+    u2 WNc
+    u1 PRN
+    u1 WN_a
+    u4 t_oa
+    f4 SQRT_A
+    f4 e
+    f4 omega
+    f4 M_0
+    f4 OMEGA_0
+    f4 OMEGADOT
+    f4 delta_i
+    f4 a_f0
+    f4 a_f1
+    u2 Health
+    u1[2] Reserved
+
+
 cdef packed struct AttEuler:
     u4 TOW
     u2 WNc
@@ -1290,6 +1752,44 @@ cdef packed struct ExtEvent:
     f8 RxClkBias
     u2 PVTAge
     u1[2] Reserved_0
+
+
+cdef packed struct ExtEventAttEuler:
+    u4 TOW
+    u2 WNc
+    u1 NrSV
+    u1 Error
+    u2 Mode
+    u2 Reserved
+    f4 Heading
+    f4 Pitch
+    f4 Roll
+    f4 PitchDot
+    f4 RollDot
+    f4 HeadingDot
+
+
+cdef packed struct ExtEventBaseVectGeod:
+    u4 TOW
+    u2 WNc
+    u1 N
+    u1 SBLength
+
+
+cdef packed struct ExtEventVectorInfoGeod:
+    u1 NrSV
+    u1 Error
+    u1 Mode
+    u1 Misc
+    f8 DeltaEast
+    f8 DeltaNorth
+    f8 DeltaUp
+    f4 DeltaVe
+    f4 DeltaVn
+    f4 DeltaVu
+    u2 Azimuth
+    i2 Elevation
+    u2 ReferenceID
 
 
 cdef packed struct ExtEventPVTCartesian:
@@ -1372,6 +1872,38 @@ cdef packed struct LBandTrackerStatus:
     u2 WNc
     u1 N
     u1 SBLength
+
+
+cdef packed struct LBandRaw:
+    u4 TOW
+    u2 WNc
+    u2 N
+    u4 Frequency
+    u1 * UserData
+
+
+cdef packed struct LBandBeams:
+    u4 TOW
+    u2 WNc
+    u1 N
+    u1 SBLength
+
+
+cdef packed struct Beaminfo:
+    u1 SVID
+    c1[9] SatName
+    i2 SatLongitude
+    u4 BeamFreq
+
+
+cdef packed struct EncapsulatedOutput:
+    u4 TOW
+    u2 WNc
+    u1 Mode
+    u1 Reserved
+    u2 N
+    u2 ReservedId
+    u1 * Payload
 
 
 cdef packed struct LBandTrackerStatus_TrackData:

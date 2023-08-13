@@ -62,16 +62,15 @@ def load(fobj, blocknames=[]):
                     # Check crc
                     if h.CRC == crc16(body_ptr, body_length, crc16( & (h.ID), 4, 0)):
                         blockno = h.ID & 0x1fff
-                        blockrev = h.ID & 0xE000
+                        blockrev = (h.ID & 0xE000) >> 13
                         blockname = num_name_dict.get(blockno, 'Unknown')
                         if blockname == 'ExtEvent':
                             cnt+=1
                         parser_func = blockparsers.get(blockname)
                         if parser_func:
                             block_dict = parser_func(( <char*>body_ptr)[0:body_length])
-                            yield blockname, block_dict
+                            yield blockrev, blockname, block_dict
 
-                    # Free body_ptr after parsing
                     else:
                         fseek(f, -HEADER_LEN + 1 - body_length, SEEK_CUR)
 

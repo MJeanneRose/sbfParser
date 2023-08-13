@@ -2,7 +2,6 @@
 # 08/2023
 
 cdef dict BLOCKPARSERS = dict()
-cdef dict BLOCKPARSERS_BYTES = dict()
 
 
 def unknown_toDict(c1 * data):
@@ -10,7 +9,6 @@ def unknown_toDict(c1 * data):
 
 
 BLOCKPARSERS['Unknown'] = unknown_toDict
-BLOCKPARSERS_BYTES['Unknown'] = unknown_toDict
 
 
 def MeasEpoch_toDict(c1 * data):
@@ -38,7 +36,7 @@ def MeasEpoch_toDict(c1 * data):
     sb2s = <MeasEpoch_Type_2 ** * > malloc(sb0.N1 * sizeof(MeasEpoch_Type_1 * ) )
 
     sb1_list = [None] * sb0.N1
-    block_dict['Type_1'] = sb1_list
+    block_dict['Type1'] = sb1_list
 
     for n1 in xrange(sb0.N1):
         sb1 = sb1s[n1] = <MeasEpoch_Type_1*>(data + i)
@@ -60,7 +58,7 @@ def MeasEpoch_toDict(c1 * data):
 
         sb2s[n1] = <MeasEpoch_Type_2 ** >malloc(sb1.N2 * sizeof(MeasEpoch_Type_2 * ) )
         sb2_list = [None] * sb1.N2
-        sb1_dict['Type_2'] = sb2_list
+        sb1_dict['Type2'] = sb2_list
 
         for n2 in xrange(sb1.N2):
             sb2 = sb2s[n1][n2] = <MeasEpoch_Type_2*>(data + i)
@@ -88,10 +86,10 @@ BLOCKPARSERS['MeasEpoch'] = MeasEpoch_toDict
 
 def MeasExtra_toDict(c1 * data):
     cdef MeasExtra * sb0
-    cdef MeasExtra_MeasExtraChannel * sb1
+    cdef MeasExtraChannelSub * sb1
     cdef size_t i
 
-    cdef MeasExtra_MeasExtraChannel ** sb1s
+    cdef MeasExtraChannelSub ** sb1s
 
     sb0 = <MeasExtra * >data
     i = sizeof(MeasExtra)
@@ -103,13 +101,13 @@ def MeasExtra_toDict(c1 * data):
     block_dict['SBLength'] = sb0.SBLength
     block_dict['DopplerVarFactor'] = sb0.DopplerVarFactor
 
-    sb1s = <MeasExtra_MeasExtraChannel ** >malloc(sb0.N * sizeof(MeasExtra_MeasExtraChannel * ) )
+    sb1s = <MeasExtraChannelSub ** >malloc(sb0.N * sizeof(MeasExtraChannelSub * ) )
 
     sb1_list = [None] * sb0.N
     block_dict['MeasExtraChannel'] = sb1_list
 
     for n in xrange(sb0.N):
-        sb1 = sb1s[n] = <MeasExtra_MeasExtraChannel*>(data + i)
+        sb1 = sb1s[n] = <MeasExtraChannelSub*>(data + i)
         i += sb0.SBLength
         sb1_dict = dict()
         sb1_list[n] = sb1_dict
@@ -128,49 +126,6 @@ def MeasExtra_toDict(c1 * data):
 
 
 BLOCKPARSERS['MeasExtra'] = MeasExtra_toDict
-
-
-def IQCorr_toDict(c1 * data):
-    cdef IQCorr * sb0
-    cdef IQCorr_CorrChannel * sb1
-    cdef size_t i
-
-    cdef IQCorr_CorrChannel ** sb1s
-
-    sb0 = <IQCorr * >data
-    i = sizeof(IQCorr)
-
-    block_dict = dict()
-    block_dict['TOW'] = sb0.TOW
-    block_dict['WNc'] = sb0.WNc
-    block_dict['N'] = sb0.N
-    block_dict['SBLength'] = sb0.SBLength
-    block_dict['CorrDuration'] = sb0.CorrDuration
-    block_dict['CumClkJumps'] = sb0.CumClkJumps
-
-    sb1s = <IQCorr_CorrChannel ** >malloc(sb0.N * sizeof(IQCorr_CorrChannel * ) )
-
-    sb1_list = [None] * sb0.N
-    block_dict['CorrChannel'] = sb1_list
-
-    for n in xrange(sb0.N):
-        sb1 = sb1s[n] = <IQCorr_CorrChannel*>(data + i)
-        i += sb0.SBLength
-        sb1_dict = dict()
-        sb1_list[n] = sb1_dict
-        sb1_dict['RxChannel'] = sb1.RxChannel
-        sb1_dict['Type'] = sb1.Type
-        sb1_dict['SVID'] = sb1.SVID
-        sb1_dict['CorrIQ_MSB'] = sb1.CorrIQ_MSB
-        sb1_dict['CorrI_LSB'] = sb1.CorrI_LSB
-        sb1_dict['CorrQ_LSB'] = sb1.CorrQ_LSB
-        sb1_dict['CarrierPhaseLSB'] = sb1.CarrierPhaseLSB
-
-    free(sb1s)
-    return block_dict
-
-
-BLOCKPARSERS['IQCorr'] = IQCorr_toDict
 
 
 def EndOfMeas_toDict(c1 * data):
@@ -199,6 +154,7 @@ def GPSRawCA_toDict(c1 * data):
     block_dict['ViterbiCount'] = sb0.ViterbiCount
     block_dict['Source'] = sb0.Source
     block_dict['FreqNr'] = sb0.FreqNr
+    block_dict['RxChannel'] = sb0.RxChannel
     block_dict['NAVBits'] = (< c1*>sb0.NAVBits)[0:40]
 
     return block_dict
@@ -219,6 +175,7 @@ def GPSRawL2C_toDict(c1 * data):
     block_dict['ViterbiCount'] = sb0.ViterbiCount
     block_dict['Source'] = sb0.Source
     block_dict['FreqNr'] = sb0.FreqNr
+    block_dict['RxChannel'] = sb0.RxChannel
     block_dict['NAVBits'] = (< c1*>sb0.NAVBits)[0:40]
 
     return block_dict
@@ -239,6 +196,7 @@ def GPSRawL5_toDict(c1 * data):
     block_dict['ViterbiCount'] = sb0.ViterbiCount
     block_dict['Source'] = sb0.Source
     block_dict['FreqNr'] = sb0.FreqNr
+    block_dict['RxChannel'] = sb0.RxChannel
     block_dict['NAVBits'] = (< c1*>sb0.NAVBits)[0:40]
 
     return block_dict
@@ -259,6 +217,7 @@ def GLORawCA_toDict(c1 * data):
     block_dict['ViterbiCount'] = sb0.ViterbiCount
     block_dict['Source'] = sb0.Source
     block_dict['FreqNr'] = sb0.FreqNr
+    block_dict['RxChannel'] = sb0.FreqNr
     block_dict['NAVBits'] = (< c1*>sb0.NAVBits)[0:12]
 
     return block_dict
@@ -279,6 +238,7 @@ def GALRawFNAV_toDict(c1 * data):
     block_dict['ViterbiCount'] = sb0.ViterbiCount
     block_dict['Source'] = sb0.Source
     block_dict['FreqNr'] = sb0.FreqNr
+    block_dict['RxChannel'] = sb0.RxChannel
     block_dict['NAVBits'] = (< c1*>sb0.NAVBits)[0:32]
 
     return block_dict
@@ -299,6 +259,7 @@ def GALRawINAV_toDict(c1 * data):
     block_dict['ViterbiCount'] = sb0.ViterbiCount
     block_dict['Source'] = sb0.Source
     block_dict['FreqNr'] = sb0.FreqNr
+    block_dict['RxChannel'] = sb0.RxChannel
     block_dict['NAVBits'] = (< c1*>sb0.NAVBits)[0:32]
 
     return block_dict
@@ -319,6 +280,7 @@ def GALRawCNAV_toDict(c1 * data):
     block_dict['ViterbiCount'] = sb0.ViterbiCount
     block_dict['Source'] = sb0.Source
     block_dict['FreqNr'] = sb0.FreqNr
+    block_dict['RxChannel'] = sb0.RxChannel
     block_dict['NAVBits'] = (< c1*>sb0.NAVBits)[0:64]
 
     return block_dict
@@ -339,6 +301,7 @@ def GEORawL1_toDict(c1 * data):
     block_dict['ViterbiCount'] = sb0.ViterbiCount
     block_dict['Source'] = sb0.Source
     block_dict['FreqNr'] = sb0.FreqNr
+    block_dict['RxChannel'] = sb0.RxChannel
     block_dict['NAVBits'] = (< c1*>sb0.NAVBits)[0:32]
 
     return block_dict
@@ -347,9 +310,9 @@ def GEORawL1_toDict(c1 * data):
 BLOCKPARSERS['GEORawL1'] = GEORawL1_toDict
 
 
-def CMPRaw_toDict(c1 * data):
-    cdef CMPRaw * sb0
-    sb0 = <CMPRaw * >data
+def GEORawL5_toDict(c1 * data):
+    cdef GEORawL5 * sb0
+    sb0 = <GEORawL5 * >data
 
     block_dict = dict()
     block_dict['TOW'] = sb0.TOW
@@ -359,12 +322,92 @@ def CMPRaw_toDict(c1 * data):
     block_dict['ViterbiCount'] = sb0.ViterbiCount
     block_dict['Source'] = sb0.Source
     block_dict['FreqNr'] = sb0.FreqNr
+    block_dict['RxChannel'] = sb0.RxChannel
+    block_dict['NAVBits'] = (< c1*>sb0.NAVBits)[0:32]
+
+    return block_dict
+
+
+BLOCKPARSERS['GEORawL1'] = GEORawL5_toDict
+
+
+def BDSRaw_toDict(c1 * data):
+    cdef BDSRaw * sb0
+    sb0 = <BDSRaw * >data
+
+    block_dict = dict()
+    block_dict['TOW'] = sb0.TOW
+    block_dict['WNc'] = sb0.WNc
+    block_dict['SVID'] = sb0.SVID
+    block_dict['CRCPassed'] = sb0.CRCPassed
+    block_dict['ViterbiCnt'] = sb0.ViterbiCnt
+    block_dict['Source'] = sb0.Source
+    block_dict['RxChannel'] = sb0.RxChannel
     block_dict['NAVBits'] = (< c1*>sb0.NAVBits)[0:40]
 
     return block_dict
 
 
-BLOCKPARSERS['CMPRaw'] = CMPRaw_toDict
+BLOCKPARSERS['BDSRaw'] = BDSRaw_toDict
+
+
+def BDSRawB1C_toDict(c1 * data):
+    cdef BDSRawB1C * sb0
+    sb0 = <BDSRawB1C * >data
+
+    block_dict = dict()
+    block_dict['TOW'] = sb0.TOW
+    block_dict['WNc'] = sb0.WNc
+    block_dict['SVID'] = sb0.SVID
+    block_dict['CRCSF2'] = sb0.CRCSF2
+    block_dict['CRCSF3'] = sb0.CRCSF3
+    block_dict['Source'] = sb0.Source
+    block_dict['RxChannel'] = sb0.RxChannel
+    block_dict['NAVBits'] = (< c1*>sb0.NAVBits)[0:228]
+
+    return block_dict
+
+
+BLOCKPARSERS['BDSRawB1C'] = BDSRawB1C_toDict
+
+
+def BDSRawB2a_toDict(c1 * data):
+    cdef BDSRawB2a * sb0
+    sb0 = <BDSRawB2a * >data
+
+    block_dict = dict()
+    block_dict['TOW'] = sb0.TOW
+    block_dict['WNc'] = sb0.WNc
+    block_dict['SVID'] = sb0.SVID
+    block_dict['CRCPassed'] = sb0.CRCPassed
+    block_dict['ViterbiCnt'] = sb0.ViterbiCnt
+    block_dict['Source'] = sb0.Source
+    block_dict['RxChannel'] = sb0.RxChannel
+    block_dict['NAVBits'] = (< c1*>sb0.NAVBits)[0:72]
+
+    return block_dict
+
+
+BLOCKPARSERS['BDSRawB2a'] = BDSRawB2a_toDict
+
+
+def BDSRawB2b_toDict(c1 * data):
+    cdef BDSRawB2b * sb0
+    sb0 = <BDSRawB2b * >data
+
+    block_dict = dict()
+    block_dict['TOW'] = sb0.TOW
+    block_dict['WNc'] = sb0.WNc
+    block_dict['SVID'] = sb0.SVID
+    block_dict['CRCPassed'] = sb0.CRCPassed
+    block_dict['Source'] = sb0.Source
+    block_dict['RxChannel'] = sb0.RxChannel
+    block_dict['NAVBits'] = (< c1*>sb0.NAVBits)[0:124]
+
+    return block_dict
+
+
+BLOCKPARSERS['BDSRawB2b'] = BDSRawB2b_toDict
 
 
 def QZSRawL1CA_toDict(c1 * data):
@@ -378,7 +421,7 @@ def QZSRawL1CA_toDict(c1 * data):
     block_dict['CRCPassed'] = sb0.CRCPassed
     block_dict['ViterbiCount'] = sb0.ViterbiCount
     block_dict['Source'] = sb0.Source
-    block_dict['FreqNr'] = sb0.FreqNr
+    block_dict['RxChannel'] = sb0.RxChannel
     block_dict['NAVBits'] = (< c1*>sb0.NAVBits)[0:40]
 
     return block_dict
@@ -398,7 +441,7 @@ def QZSRawL2C_toDict(c1 * data):
     block_dict['CRCPassed'] = sb0.CRCPassed
     block_dict['ViterbiCount'] = sb0.ViterbiCount
     block_dict['Source'] = sb0.Source
-    block_dict['FreqNr'] = sb0.FreqNr
+    block_dict['RxChannel'] = sb0.RxChannel
     block_dict['NAVBits'] = (< c1*>sb0.NAVBits)[0:40]
 
     return block_dict
@@ -418,13 +461,33 @@ def QZSRawL5_toDict(c1 * data):
     block_dict['CRCPassed'] = sb0.CRCPassed
     block_dict['ViterbiCount'] = sb0.ViterbiCount
     block_dict['Source'] = sb0.Source
-    block_dict['FreqNr'] = sb0.FreqNr
+    block_dict['RxChannel'] = sb0.RxChannel
     block_dict['NAVBits'] = (< c1*>sb0.NAVBits)[0:40]
 
     return block_dict
 
 
 BLOCKPARSERS['QZSRawL5'] = QZSRawL5_toDict
+
+
+def NAVICRaw_toDict(c1 * data):
+    cdef NAVICRaw * sb0
+    sb0 = <NAVICRaw * >data
+
+    block_dict = dict()
+    block_dict['TOW'] = sb0.TOW
+    block_dict['WNc'] = sb0.WNc
+    block_dict['SVID'] = sb0.SVID
+    block_dict['CRCPassed'] = sb0.CRCPassed
+    block_dict['ViterbiCount'] = sb0.ViterbiCount
+    block_dict['Source'] = sb0.Source
+    block_dict['RxChannel'] = sb0.RxChannel
+    block_dict['NAVBits'] = (< c1*>sb0.NAVBits)[0:40]
+
+    return block_dict
+
+
+BLOCKPARSERS['NAVICRaw'] = NAVICRaw_toDict
 
 
 def GPSNav_toDict(c1 * data):
@@ -549,6 +612,554 @@ def GPSUtc_toDict(c1 * data):
 BLOCKPARSERS['GPSUtc'] = GPSUtc_toDict
 
 
+def IQCorr_toDict(c1 * data):
+    cdef IQCorr * sb0
+    cdef IQCorr_CorrChannel * sb1
+    cdef size_t i
+
+    cdef IQCorr_CorrChannel ** sb1s
+
+    sb0 = <IQCorr * >data
+    i = sizeof(IQCorr)
+
+    block_dict = dict()
+    block_dict['TOW'] = sb0.TOW
+    block_dict['WNc'] = sb0.WNc
+    block_dict['N'] = sb0.N
+    block_dict['SBLength'] = sb0.SBLength
+    block_dict['CorrDuration'] = sb0.CorrDuration
+    block_dict['CumClkJumps'] = sb0.CumClkJumps
+
+    sb1s = <IQCorr_CorrChannel ** >malloc(sb0.N * sizeof(IQCorr_CorrChannel * ) )
+
+    sb1_list = [None] * sb0.N
+    block_dict['CorrChannel'] = sb1_list
+
+    for n in xrange(sb0.N):
+        sb1 = sb1s[n] = <IQCorr_CorrChannel*>(data + i)
+        i += sb0.SBLength
+        sb1_dict = dict()
+        sb1_list[n] = sb1_dict
+        sb1_dict['RxChannel'] = sb1.RxChannel
+        sb1_dict['Type'] = sb1.Type
+        sb1_dict['SVID'] = sb1.SVID
+        sb1_dict['CorrIQ_MSB'] = sb1.CorrIQ_MSB
+        sb1_dict['CorrI_LSB'] = sb1.CorrI_LSB
+        sb1_dict['CorrQ_LSB'] = sb1.CorrQ_LSB
+        sb1_dict['CarrierPhaseLSB'] = sb1.CarrierPhaseLSB
+
+    free(sb1s)
+    return block_dict
+
+
+BLOCKPARSERS['IQCorr'] = IQCorr_toDict
+
+
+def CMPRaw_toDict(c1 * data):
+    cdef CMPRaw * sb0
+    sb0 = <CMPRaw * >data
+
+    block_dict = dict()
+    block_dict['TOW'] = sb0.TOW
+    block_dict['WNc'] = sb0.WNc
+    block_dict['SVID'] = sb0.SVID
+    block_dict['CRCPassed'] = sb0.CRCPassed
+    block_dict['ViterbiCount'] = sb0.ViterbiCount
+    block_dict['Source'] = sb0.Source
+    block_dict['FreqNr'] = sb0.FreqNr
+    block_dict['NAVBits'] = (< c1*>sb0.NAVBits)[0:40]
+
+    return block_dict
+
+
+BLOCKPARSERS['CMPRaw'] = CMPRaw_toDict
+
+
+def QZSAlm_toDict(c1 * data):
+    cdef QZSAlm * sb0
+    sb0 = <QZSAlm * >data
+
+    block_dict = dict()
+    block_dict['TOW'] = sb0.TOW
+    block_dict['WNc'] = sb0.WNc
+    block_dict['PRN'] = sb0.PRN
+    block_dict['e'] = sb0.e
+    block_dict['t_oa'] = sb0.t_oa
+    block_dict['delta_i'] = sb0.delta_i
+    block_dict['OMEGADOT'] = sb0.OMEGADOT
+    block_dict['SQRT_A'] = sb0.SQRT_A
+    block_dict['OMEGA_0'] = sb0.OMEGA_0
+    block_dict['omega'] = sb0.omega
+    block_dict['M_0'] = sb0.M_0
+    block_dict['a_f1'] = sb0.a_f1
+    block_dict['a_f0'] = sb0.a_f0
+    block_dict['WN_a'] = sb0.WN_a
+    block_dict['health8'] = sb0.health8
+    block_dict['health6'] = sb0.health6
+
+    return block_dict
+
+
+BLOCKPARSERS['QZSAlm'] = QZSAlm_toDict
+
+def GISStatus_toDict(c1 * data):
+    cdef GISStatus * sb0
+    cdef DatabaseStatus * sb1
+    cdef size_t i
+
+    cdef DatabaseStatus ** sb1s
+
+    sb0 = <GISStatus * >data
+    i = sizeof(GISStatus)
+
+    block_dict = dict()
+    block_dict['TOW'] = sb0.TOW
+    block_dict['WNc'] = sb0.WNc
+    block_dict['N'] = sb0.N
+    block_dict['SBLength'] = sb0.SBLength
+
+    sb1s = <DatabaseStatus ** >malloc(sb0.N * sizeof(DatabaseStatus * ) )
+
+    sb1_list = [None] * sb0.N
+    block_dict['DatabaseStatus'] = sb1_list
+
+    for n in xrange(sb0.N):
+        sb1 = sb1s[n] = <DatabaseStatus*>(data + i)
+        i += sb0.SBLength
+        sb1_dict = dict()
+        sb1_list[n] = sb1_dict
+        sb1_dict['Database'] = sb1.Database
+        sb1_dict['OnlineStatus'] = sb1.OnlineStatus
+        sb1_dict['Error'] = sb1.Error
+        sb1_dict['NrItems'] = sb1.NrItems
+        sb1_dict['NrNotSync'] = sb1.NrNotSync
+
+    free(sb1s)
+    return block_dict
+
+
+BLOCKPARSERS['GISStatus'] = GISStatus_toDict
+
+
+def QZSNav_toDict(c1 * data):
+    cdef QZSNav * sb0
+    sb0 = <QZSNav * >data
+
+    block_dict = dict()
+    block_dict['TOW'] = sb0.TOW
+    block_dict['WNc'] = sb0.WNc
+    block_dict['PRN'] = sb0.PRN
+    block_dict['WN'] = sb0.WN
+    block_dict['CAorPonL2'] = sb0.CAorPonL2
+    block_dict['URA'] = sb0.URA
+    block_dict['health'] = sb0.health
+    block_dict['L2DataFlag'] = sb0.L2DataFlag
+    block_dict['IODC'] = sb0.IODC
+    block_dict['IODE2'] = sb0.IODE2
+    block_dict['IODE3'] = sb0.IODE3
+    block_dict['FitIntFlg'] = sb0.FitIntFlg
+    block_dict['T_gd'] = sb0.T_gd
+    block_dict['t_oc'] = sb0.t_oc
+    block_dict['a_f2'] = sb0.a_f2
+    block_dict['a_f1'] = sb0.a_f1
+    block_dict['a_f0'] = sb0.a_f0
+    block_dict['C_rs'] = sb0.C_rs
+    block_dict['DEL_N'] = sb0.DEL_N
+    block_dict['M_0'] = sb0.M_0
+    block_dict['C_uc'] = sb0.C_uc
+    block_dict['e'] = sb0.e
+    block_dict['C_us'] = sb0.C_us
+    block_dict['SQRT_A'] = sb0.SQRT_A
+    block_dict['t_oe'] = sb0.t_oe
+    block_dict['C_ic'] = sb0.C_ic
+    block_dict['OMEGA_0'] = sb0.OMEGA_0
+    block_dict['C_is'] = sb0.C_is
+    block_dict['i_0'] = sb0.i_0
+    block_dict['C_rc'] = sb0.C_rc
+    block_dict['omega'] = sb0.omega
+    block_dict['OMEGADOT'] = sb0.OMEGADOT
+    block_dict['IDOT'] = sb0.IDOT
+    block_dict['WNt_oc'] = sb0.WNt_oc
+    block_dict['WNt_oe'] = sb0.WNt_oe
+
+    return block_dict
+
+
+BLOCKPARSERS['QZSNav'] = QZSNav_toDict
+
+
+def BDSAlm_toDict(c1 * data):
+    cdef BDSAlm * sb0
+    sb0 = <BDSAlm * >data
+
+    block_dict = dict()
+    block_dict['TOW'] = sb0.TOW
+    block_dict['WNc'] = sb0.WNc
+    block_dict['PRN'] = sb0.PRN
+    block_dict['WN_a'] = sb0.WN_a
+    block_dict['t_oa'] = sb0.t_oa
+    block_dict['e'] = sb0.e
+    block_dict['omega'] = sb0.omega
+    block_dict['M_0'] = sb0.M_0
+    block_dict['OMEGA_0'] = sb0.OMEGA_0
+    block_dict['OMEGADOT'] = sb0.OMEGADOT
+    block_dict['delta_i'] = sb0.delta_i
+    block_dict['a_f0'] = sb0.a_f0
+    block_dict['a_f1'] = sb0.a_f1
+    block_dict['Health'] = sb0.Health
+    return block_dict
+
+
+BLOCKPARSERS['BDSAlm'] = BDSAlm_toDict
+
+
+def DynDNSStatus_toDict(c1 * data):
+    cdef DynDNSStatus * sb0
+    sb0 = <DynDNSStatus * >data
+
+    block_dict = dict()
+    block_dict['TOW'] = sb0.TOW
+    block_dict['WNc'] = sb0.WNc
+    block_dict['Status'] = sb0.Status
+    block_dict['ErrorCode'] = sb0.ErrorCode
+    block_dict['IPAddress'] = (< c1*>sb0.IPAddress)[0:16]
+
+    return block_dict
+
+
+BLOCKPARSERS['DynDNSStatus'] = DynDNSStatus_toDict
+
+
+def GPSCNav_toDict(c1 * data):
+    cdef GPSCNav * sb0
+    sb0 = <GPSCNav * >data
+
+    block_dict = dict()
+    block_dict['TOW'] = sb0.TOW
+    block_dict['WNc'] = sb0.WNc
+    block_dict['PRN'] = sb0.PRN
+    block_dict['Flags'] = sb0.Flags
+    block_dict['WN'] = sb0.WN
+    block_dict['health'] = sb0.health
+    block_dict['URA_ED'] = sb0.URA_ED
+    block_dict['t_op'] = sb0.t_op
+    block_dict['t_oe'] = sb0.t_oe
+    block_dict['A'] = sb0.A
+    block_dict['A_DOT'] = sb0.A_DOT
+    block_dict['DELTA_N'] = sb0.DELTA_N
+    block_dict['DELTA_N_DOT'] = sb0.DELTA_N_DOT
+    block_dict['M_0'] = sb0.M_0
+    block_dict['e'] = sb0.e
+    block_dict['omega'] = sb0.omega
+    block_dict['OMEGA_0'] = sb0.OMEGA_0
+    block_dict['OMEGADOT'] = sb0.OMEGADOT
+    block_dict['i_0'] = sb0.i_0
+    block_dict['IDOT'] = sb0.IDOT
+    block_dict['C_is'] = sb0.C_is
+    block_dict['C_ic'] = sb0.C_ic
+
+    return block_dict
+
+
+BLOCKPARSERS['GPSCNav'] = GPSCNav_toDict
+
+
+def FugroStatus_toDict(c1 * data):
+    cdef FugroStatus * sb0
+    sb0 = <FugroStatus * >data
+
+    block_dict = dict()
+    block_dict['TOW'] = sb0.TOW
+    block_dict['WNc'] = sb0.WNc
+    block_dict['Status'] = sb0.Status
+    block_dict['SubStartingTime'] = sb0.SubStartingTime
+    block_dict['SubExpirationTime'] = sb0.SubExpirationTime
+    block_dict['SubHourGlass'] = sb0.SubHourGlass
+    block_dict['SubscribedMode'] = sb0.SubscribedMode
+    block_dict['SubCurrentMode'] = sb0.SubCurrentMode
+    block_dict['SubLinkVector'] = sb0.SubLinkVector
+    block_dict['CRCGoodCount'] = sb0.CRCGoodCount
+    block_dict['CRCBadCount'] = sb0.CRCBadCount
+
+    return block_dict
+
+
+BLOCKPARSERS['FugroStatus'] = FugroStatus_toDict
+
+
+def RFStatus_toDict(c1 * data):
+    cdef RFStatus * sb0
+    cdef RFBand * sb1
+    cdef size_t i
+
+    cdef RFBand ** sb1s
+
+    sb0 = <RFStatus * >data
+    i = sizeof(RFStatus)
+
+    block_dict = dict()
+    block_dict['TOW'] = sb0.TOW
+    block_dict['WNc'] = sb0.WNc
+    block_dict['N'] = sb0.N
+    block_dict['SBLength'] = sb0.SBLength
+    block_dict['Flags'] = sb0.Flags
+
+    sb1s = <RFBand ** >malloc(sb0.N * sizeof(RFBand * ) )
+
+    sb1_list = [None] * sb0.N
+    block_dict['RFBand'] = sb1_list
+
+    for n in xrange(sb0.N):
+        sb1 = sb1s[n] = <RFBand*>(data + i)
+        i += sb0.SBLength
+        sb1_dict = dict()
+        sb1_list[n] = sb1_dict
+        sb1_dict['Frequency'] = sb1.Frequency
+        sb1_dict['Bandwidth'] = sb1.Bandwidth
+        sb1_dict['Info'] = sb1.Info
+
+    free(sb1s)
+    return block_dict
+
+
+BLOCKPARSERS['RFStatus'] = RFStatus_toDict
+
+
+def NTRIPClientStatus_toDict(c1 * data):
+    cdef NTRIPClientStatus * sb0
+    cdef NTRIPClientConnection * sb1
+    cdef size_t i
+
+    cdef NTRIPClientConnection ** sb1s
+
+    sb0 = <NTRIPClientStatus * >data
+    i = sizeof(NTRIPClientStatus)
+
+    block_dict = dict()
+    block_dict['TOW'] = sb0.TOW
+    block_dict['WNc'] = sb0.WNc
+    block_dict['N'] = sb0.N
+    block_dict['SBLength'] = sb0.SBLength
+
+    sb1s = <NTRIPClientConnection ** >malloc(sb0.N * sizeof(NTRIPClientConnection * ) )
+
+    sb1_list = [None] * sb0.N
+    block_dict['NTRIPClientConnection'] = sb1_list
+
+    for n in xrange(sb0.N):
+        sb1 = sb1s[n] = <NTRIPClientConnection*>(data + i)
+        i += sb0.SBLength
+        sb1_dict = dict()
+        sb1_list[n] = sb1_dict
+        sb1_dict['CDIndex'] = sb1.CDIndex
+        sb1_dict['Status'] = sb1.Status
+        sb1_dict['ErrorCode'] = sb1.ErrorCode
+        sb1_dict['Info'] = sb1.Info
+
+    free(sb1s)
+    return block_dict
+
+
+BLOCKPARSERS['NTRIPClientStatus'] = NTRIPClientStatus_toDict
+
+
+def NTRIPServerStatus_toDict(c1 * data):
+    cdef NTRIPServerStatus * sb0
+    cdef NTRIPServerConnection * sb1
+    cdef size_t i
+
+    cdef NTRIPServerConnection ** sb1s
+
+    sb0 = <NTRIPServerStatus * >data
+    i = sizeof(NTRIPServerStatus)
+
+    block_dict = dict()
+    block_dict['TOW'] = sb0.TOW
+    block_dict['WNc'] = sb0.WNc
+    block_dict['N'] = sb0.N
+    block_dict['SBLength'] = sb0.SBLength
+
+    sb1s = <NTRIPServerConnection ** >malloc(sb0.N * sizeof(NTRIPServerConnection * ) )
+
+    sb1_list = [None] * sb0.N
+    block_dict['NTRIPServerConnection'] = sb1_list
+
+    for n in xrange(sb0.N):
+        sb1 = sb1s[n] = <NTRIPServerConnection*>(data + i)
+        i += sb0.SBLength
+        sb1_dict = dict()
+        sb1_list[n] = sb1_dict
+        sb1_dict['CDIndex'] = sb1.CDIndex
+        sb1_dict['Status'] = sb1.Status
+        sb1_dict['ErrorCode'] = sb1.ErrorCode
+        sb1_dict['Info'] = sb1.Info
+
+    free(sb1s)
+    return block_dict
+
+
+BLOCKPARSERS['NTRIPServerStatus'] = NTRIPServerStatus_toDict
+
+
+def QualityInd_toDict(c1 * data):
+    cdef QualityInd * sb0
+    sb0 = <QualityInd * >data
+
+    i = sizeof(QualityInd)
+
+    block_dict = dict()
+    block_dict['TOW'] = sb0.TOW
+    block_dict['WNc'] = sb0.WNc
+    block_dict['N'] = sb0.N
+    block_dict['Indicators'] = (< c1*>&sb0.N)[0:2*sb0.N]
+
+    return block_dict
+
+
+BLOCKPARSERS['QualityInd'] = QualityInd_toDict
+
+
+def DiskStatus_toDict(c1 * data):
+    cdef DiskStatus * sb0
+    cdef DiskData * sb1
+    cdef size_t i
+
+    cdef DiskData ** sb1s
+
+    sb0 = <DiskStatus * >data
+    i = sizeof(DiskStatus)
+
+    block_dict = dict()
+    block_dict['TOW'] = sb0.TOW
+    block_dict['WNc'] = sb0.WNc
+    block_dict['N'] = sb0.N
+    block_dict['SBLength'] = sb0.SBLength
+
+    sb1s = <DiskData ** >malloc(sb0.N * sizeof(DiskData * ) )
+
+    sb1_list = [None] * sb0.N
+    block_dict['DiskData'] = sb1_list
+
+    for n in xrange(sb0.N):
+        sb1 = sb1s[n] = <DiskData*>(data + i)
+        i += sb0.SBLength
+        sb1_dict = dict()
+        sb1_list[n] = sb1_dict
+        sb1_dict['DiskID'] = sb1.DiskID
+        sb1_dict['Status'] = sb1.Status
+        sb1_dict['DiskUsageMSB'] = sb1.DiskUsageMSB
+        sb1_dict['DiskUsageLSB'] = sb1.DiskUsageLSB
+        sb1_dict['DiskSize'] = sb1.DiskSize
+        sb1_dict['CreateDeleteCount'] = sb1.CreateDeleteCount
+        sb1_dict['Error'] = sb1.Error
+
+    free(sb1s)
+    return block_dict
+
+
+BLOCKPARSERS['DiskStatus'] = DiskStatus_toDict
+
+
+def P2PPStatus_toDict(c1 * data):
+    cdef P2PPStatus * sb0
+    cdef P2PPSession * sb1
+    cdef size_t i
+
+    cdef P2PPSession ** sb1s
+
+    sb0 = <P2PPStatus * >data
+    i = sizeof(P2PPStatus)
+
+    block_dict = dict()
+    block_dict['TOW'] = sb0.TOW
+    block_dict['WNc'] = sb0.WNc
+    block_dict['N'] = sb0.N
+    block_dict['SBLength'] = sb0.SBLength
+
+    sb1s = <P2PPSession ** >malloc(sb0.N * sizeof(P2PPSession * ) )
+
+    sb1_list = [None] * sb0.N
+    block_dict['P2PPSession'] = sb1_list
+
+    for n in xrange(sb0.N):
+        sb1 = sb1s[n] = <P2PPSession*>(data + i)
+        i += sb0.SBLength
+        sb1_dict = dict()
+        sb1_list[n] = sb1_dict
+        sb1_dict['SessionID'] = sb1.SessionID
+        sb1_dict['Port'] = sb1.Port
+        sb1_dict['Status'] = sb1.Status
+        sb1_dict['ErrorCode'] = sb1.ErrorCode
+
+    free(sb1s)
+    return block_dict
+
+
+BLOCKPARSERS['P2PPStatus'] = P2PPStatus_toDict
+
+
+def RxMessage_toDict(c1 * data):
+    cdef RxMessage * sb0
+    sb0 = <RxMessage * >data
+
+    block_dict = dict()
+    block_dict['TOW'] = sb0.TOW
+    block_dict['WNc'] = sb0.WNc
+    block_dict['Type'] = sb0.Type
+    block_dict['Severity'] = sb0.Severity
+    block_dict['MessageID'] = sb0.MessageID
+    block_dict['StringLn'] = sb0.StringLn
+
+    block_dict['Message'] = (< c1*>&sb0.Message)[0:sb0.StringLn]
+
+    return block_dict
+
+
+BLOCKPARSERS['RxMessage'] = RxMessage_toDict
+
+
+def GISAction_toDict(c1 * data):
+    cdef GISAction * sb0
+    sb0 = <GISAction * >data
+
+    block_dict = dict()
+    block_dict['TOW'] = sb0.TOW
+    block_dict['WNc'] = sb0.WNc
+    block_dict['CommentLn'] = sb0.CommentLn
+    block_dict['ItemIDMSB'] = sb0.ItemIDMSB
+    block_dict['ItemIDLSB'] = sb0.ItemIDLSB
+    block_dict['Action'] = sb0.Action
+    block_dict['Trigger'] = sb0.Trigger
+    block_dict['Database'] = sb0.Database
+
+    block_dict['Comment'] = (< c1*>&sb0.Comment)[0:sb0.CommentLn]
+
+    return block_dict
+
+
+BLOCKPARSERS['GISAction'] = GISAction_toDict
+
+
+def PosLocal_toDict(c1 * data):
+    cdef PosLocal * sb0
+    sb0 = <PosLocal * >data
+
+    block_dict = dict()
+    block_dict['TOW'] = sb0.TOW
+    block_dict['WNc'] = sb0.WNc
+    block_dict['Mode'] = sb0.Mode
+    block_dict['Error'] = sb0.Error
+    block_dict['Lat'] = sb0.Lat
+    block_dict['Lon'] = sb0.Lon
+    block_dict['Alt'] = sb0.Alt
+    block_dict['Datum'] = sb0.Datum
+
+    return block_dict
+
+
+BLOCKPARSERS['PosLocal'] = PosLocal_toDict
+
+
 def GLONav_toDict(c1 * data):
     cdef GLONav * sb0
     sb0 = <GLONav * >data
@@ -588,6 +1199,21 @@ def GLONav_toDict(c1 * data):
 
 
 BLOCKPARSERS['GLONav'] = GLONav_toDict
+
+
+def CosmosStatus_toDict(c1 * data):
+    cdef CosmosStatus * sb0
+    sb0 = <CosmosStatus * >data
+
+    block_dict = dict()
+    block_dict['TOW'] = sb0.TOW
+    block_dict['WNc'] = sb0.WNc
+    block_dict['Status'] = sb0.Status
+
+    return block_dict
+
+
+BLOCKPARSERS['CosmosStatus'] = CosmosStatus_toDict
 
 
 def GLOTime_toDict(c1 * data):
@@ -1036,6 +1662,26 @@ def GEOIGPMask_toDict(c1 * data):
 BLOCKPARSERS['GEOIGPMask'] = GEOIGPMask_toDict
 
 
+def PosProjected_toDict(c1 * data):
+    cdef PosProjected * sb0
+    sb0 = <PosProjected * >data
+
+    block_dict = dict()
+    block_dict['TOW'] = sb0.TOW
+    block_dict['WNc'] = sb0.WNc
+    block_dict['Mode'] = sb0.Mode
+    block_dict['Error'] = sb0.Error
+    block_dict['Northing'] = sb0.Northing
+    block_dict['Easting'] = sb0.Easting
+    block_dict['Alt'] = sb0.Alt
+    block_dict['Datum'] = sb0.Datum
+
+    return block_dict
+
+
+BLOCKPARSERS['PosProjected'] = PosProjected_toDict
+
+
 def GEOLongTermCorr_toDict(c1 * data):
     cdef GEOLongTermCorr * sb0
     cdef GEOLongTermCorr_LTCorr * sb1
@@ -1218,9 +1864,9 @@ def GEOClockEphCovMatrix_toDict(c1 * data):
 BLOCKPARSERS['GEOClockEphCovMatrix'] = GEOClockEphCovMatrix_toDict
 
 
-def PVTCartesian_v2_toDict(c1 * data):
-    cdef PVTCartesian_v2 * sb0
-    sb0 = <PVTCartesian_v2 * >data
+def PVTCartesian_toDict(c1 * data):
+    cdef PVTCartesian * sb0
+    sb0 = <PVTCartesian * >data
 
     block_dict = dict()
     block_dict['TOW'] = sb0.TOW
@@ -1245,12 +1891,11 @@ def PVTCartesian_v2_toDict(c1 * data):
     block_dict['MeanCorrAge'] = sb0.MeanCorrAge
     block_dict['SignalInfo'] = sb0.SignalInfo
     block_dict['AlertFlag'] = sb0.AlertFlag
-    block_dict['NrBases'] = sb0.NrBases
 
     return block_dict
 
 
-BLOCKPARSERS['PVTCartesian_v2'] = PVTCartesian_v2_toDict
+BLOCKPARSERS['PVTCartesian'] = PVTCartesian_toDict
 
 
 def PVTGeodetic_toDict(c1 * data):
@@ -1392,9 +2037,9 @@ def VelCovGeodetic_toDict(c1 * data):
 BLOCKPARSERS['VelCovGeodetic'] = VelCovGeodetic_toDict
 
 
-def DOP_v2_toDict(c1 * data):
-    cdef DOP_v2 * sb0
-    sb0 = <DOP_v2 * >data
+def DOP_toDict(c1 * data):
+    cdef DOP * sb0
+    sb0 = <DOP * >data
 
     block_dict = dict()
     block_dict['TOW'] = sb0.TOW
@@ -1410,7 +2055,125 @@ def DOP_v2_toDict(c1 * data):
     return block_dict
 
 
-BLOCKPARSERS['DOP_v2'] = DOP_v2_toDict
+BLOCKPARSERS['DOP'] = DOP_toDict
+
+
+def BDSIon_toDict(c1 * data):
+    cdef BDSIon * sb0
+    sb0 = <BDSIon * >data
+
+    block_dict = dict()
+    block_dict['TOW'] = sb0.TOW
+    block_dict['WNc'] = sb0.WNc
+    block_dict['PRN'] = sb0.PRN
+    block_dict['alpha_0'] = sb0.alpha_0
+    block_dict['alpha_1'] = sb0.alpha_1
+    block_dict['alpha_2'] = sb0.alpha_2
+    block_dict['alpha_3'] = sb0.alpha_3
+    block_dict['beta_0'] = sb0.beta_0
+    block_dict['beta_1'] = sb0.beta_1
+    block_dict['beta_2'] = sb0.beta_2
+    block_dict['beta_3'] = sb0.beta_3
+
+    return block_dict
+
+
+BLOCKPARSERS['BDSIon'] = BDSIon_toDict
+
+
+def BDSUtc_toDict(c1 * data):
+    cdef BDSUtc * sb0
+    sb0 = <BDSUtc * >data
+
+    block_dict = dict()
+    block_dict['TOW'] = sb0.TOW
+    block_dict['WNc'] = sb0.WNc
+    block_dict['PRN'] = sb0.PRN
+    block_dict['A_1'] = sb0.A_1
+    block_dict['A_0'] = sb0.A_0
+    block_dict['DEL_t_LS'] = sb0.DEL_t_LS
+    block_dict['WN_LSF'] = sb0.WN_LSF
+    block_dict['DN'] = sb0.DN
+    block_dict['DEL_t_LSF'] = sb0.DEL_t_LSF
+
+    return block_dict
+
+
+BLOCKPARSERS['BDSUtc'] = BDSUtc_toDict
+
+
+def GLOAlm_toDict(c1 * data):
+    cdef GLOAlm * sb0
+    sb0 = <GLOAlm * >data
+
+    block_dict = dict()
+    block_dict['TOW'] = sb0.TOW
+    block_dict['WNc'] = sb0.WNc
+    block_dict['SVID'] = sb0.SVID
+    block_dict['FreqNr'] = sb0.FreqNr
+    block_dict['epsilon'] = sb0.epsilon
+    block_dict['t_oa'] = sb0.t_oa
+    block_dict['Delta_i'] = sb0.Delta_i
+    block_dict['Lambda'] = sb0.Lambda
+    block_dict['t_ln'] = sb0.t_ln
+    block_dict['omega'] = sb0.omega
+    block_dict['Delta_T'] = sb0.Delta_T
+    block_dict['dDelta_t'] = sb0.dDelta_t
+    block_dict['tau'] = sb0.tau
+    block_dict['WN_a'] = sb0.WN_a
+    block_dict['C'] = sb0.C
+    block_dict['N'] = sb0.N
+    block_dict['M'] = sb0.M
+    block_dict['N_4'] = sb0.N_4
+
+    return block_dict
+
+
+BLOCKPARSERS['GLOAlm'] = GLOAlm_toDict
+
+
+def BDSNav_toDict(c1 * data):
+    cdef BDSNav * sb0
+    sb0 = <BDSNav * >data
+
+    block_dict = dict()
+    block_dict['TOW'] = sb0.TOW
+    block_dict['WNc'] = sb0.WNc
+    block_dict['PRN'] = sb0.PRN
+    block_dict['WN'] = sb0.WN
+    block_dict['URA'] = sb0.URA
+    block_dict['SatH1'] = sb0.SatH1
+    block_dict['IODC'] = sb0.IODC
+    block_dict['IODE'] = sb0.IODE
+    block_dict['T_GD1'] = sb0.T_GD1
+    block_dict['T_GD2'] = sb0.T_GD2
+    block_dict['t_oc'] = sb0.t_oc
+    block_dict['a_f2'] = sb0.a_f2
+    block_dict['a_f1'] = sb0.a_f1
+    block_dict['a_f0'] = sb0.a_f0
+    block_dict['C_rs'] = sb0.C_rs
+    block_dict['DEL_N'] = sb0.DEL_N
+    block_dict['M_0'] = sb0.M_0
+    block_dict['C_uc'] = sb0.C_uc
+    block_dict['e'] = sb0.e
+    block_dict['C_us'] = sb0.C_us
+    block_dict['SQRT_A'] = sb0.SQRT_A
+    block_dict['t_oe'] = sb0.t_oe
+    block_dict['C_ic'] = sb0.C_ic
+    block_dict['OMEGA_0'] = sb0.OMEGA_0
+    block_dict['C_is'] = sb0.C_is
+    block_dict['i_0'] = sb0.i_0
+    block_dict['C_rc'] = sb0.C_rc
+    block_dict['omega'] = sb0.omega
+    block_dict['OMEGADOT'] = sb0.OMEGADOT
+    block_dict['IDOT'] = sb0.IDOT
+    block_dict['WNt_oc'] = sb0.WNt_oc
+    block_dict['WNt_oe'] = sb0.WNt_oe
+
+    return block_dict
+
+
+BLOCKPARSERS['BDSNav'] = BDSNav_toDict
 
 
 def PosCart_toDict(c1 * data):
@@ -1584,6 +2347,25 @@ def RAIMStatistics_v2_toDict(c1 * data):
 
 
 BLOCKPARSERS['RAIMStatistics_v2'] = RAIMStatistics_v2_toDict
+
+
+def RTCMDatum_toDict(c1 * data):
+    cdef RTCMDatum * sb0
+    sb0 = <RTCMDatum * >data
+
+    block_dict = dict()
+    block_dict['TOW'] = sb0.TOW
+    block_dict['WNc'] = sb0.WNc
+    block_dict['SourceCRS'] = sb0.SourceCRS
+    block_dict['TargetCRS'] = sb0.TargetCRS
+    block_dict['Datum'] = sb0.Datum
+    block_dict['HeightType'] = sb0.HeightType
+    block_dict['QualityInd'] = sb0.QualityInd
+
+    return block_dict
+
+
+BLOCKPARSERS['RTCMDatum'] = RTCMDatum_toDict
 
 
 def GEOCorrections_toDict(c1 * data):
@@ -2153,6 +2935,76 @@ def ExtEvent_toDict(c1 * data):
 BLOCKPARSERS['ExtEvent'] = ExtEvent_toDict
 
 
+def ExtEventAttEuler_toDict(c1 * data):
+    cdef ExtEventAttEuler * sb0
+    sb0 = <ExtEventAttEuler * >data
+
+    block_dict = dict()
+    block_dict['TOW'] = sb0.TOW
+    block_dict['WNc'] = sb0.WNc
+    block_dict['NrSV'] = sb0.NrSV
+    block_dict['Error'] = sb0.Error
+    block_dict['Mode'] = sb0.Mode
+    block_dict['Heading'] = sb0.Heading
+    block_dict['Pitch'] = sb0.Pitch
+    block_dict['Roll'] = sb0.Roll
+    block_dict['PitchDot'] = sb0.PitchDot
+    block_dict['RollDot'] = sb0.RollDot
+    block_dict['HeadingDot'] = sb0.HeadingDot
+
+    return block_dict
+
+
+BLOCKPARSERS['ExtEventAttEuler'] = ExtEventAttEuler_toDict
+
+
+def ExtEventBaseVectGeod_toDict(c1 * data):
+    cdef ExtEventBaseVectGeod * sb0
+    cdef ExtEventVectorInfoGeod * sb1
+    cdef size_t i
+
+    cdef ExtEventVectorInfoGeod ** sb1s
+
+    sb0 = <ExtEventBaseVectGeod * >data
+    i = sizeof(ExtEventBaseVectGeod)
+
+    block_dict = dict()
+    block_dict['TOW'] = sb0.TOW
+    block_dict['WNc'] = sb0.WNc
+    block_dict['N'] = sb0.N
+    block_dict['SBLength'] = sb0.SBLength
+
+    sb1s = <ExtEventVectorInfoGeod ** >malloc(sb0.N * sizeof(ExtEventVectorInfoGeod * ) )
+
+    sb1_list = [None] * sb0.N
+    block_dict['ExtEventVectorInfoGeod'] = sb1_list
+
+    for n in xrange(sb0.N):
+        sb1 = sb1s[n] = <ExtEventVectorInfoGeod*>(data + i)
+        i += sb0.SBLength
+        sb1_dict = dict()
+        sb1_list[n] = sb1_dict
+        sb1_dict['NrSV'] = sb1.NrSV
+        sb1_dict['Error'] = sb1.Error
+        sb1_dict['Mode'] = sb1.Mode
+        sb1_dict['Misc'] = sb1.Misc
+        sb1_dict['DeltaEast'] = sb1.DeltaEast
+        sb1_dict['DeltaNorth'] = sb1.DeltaNorth
+        sb1_dict['DeltaUp'] = sb1.DeltaUp
+        sb1_dict['DeltaVe'] = sb1.DeltaVe
+        sb1_dict['DeltaVn'] = sb1.DeltaVn
+        sb1_dict['DeltaVu'] = sb1.DeltaVu
+        sb1_dict['Azimuth'] = sb1.Azimuth
+        sb1_dict['Elevation'] = sb1.Elevation
+        sb1_dict['ReferenceID'] = sb1.ReferenceID
+
+    free(sb1s)
+    return block_dict
+
+
+BLOCKPARSERS['ExtEventBaseVectGeod'] = ExtEventBaseVectGeod_toDict
+
+
 def ExtEventPVTCartesian_toDict(c1 * data):
     cdef ExtEventPVTCartesian * sb0
     sb0 = <ExtEventPVTCartesian * >data
@@ -2261,6 +3113,40 @@ def BaseStation_toDict(c1 * data):
 BLOCKPARSERS['BaseStation'] = BaseStation_toDict
 
 
+def LBandRaw_toDict(c1 * data):
+    cdef LBandRaw * sb0
+    sb0 = <LBandRaw * >data
+
+    block_dict = dict()
+    block_dict['TOW'] = sb0.TOW
+    block_dict['WNc'] = sb0.WNc
+    block_dict['N'] = sb0.N
+    block_dict['Frequency'] = sb0.Frequency
+    block_dict['UserData'] = (< c1*>&sb0.UserData)[0:sb0.N]
+
+    return block_dict
+
+
+BLOCKPARSERS['LBandRaw'] = LBandRaw_toDict
+
+
+def EncapsulatedOutput_toDict(c1 * data):
+    cdef EncapsulatedOutput * sb0
+    sb0 = <EncapsulatedOutput * >data
+
+    block_dict = dict()
+    block_dict['TOW'] = sb0.TOW
+    block_dict['WNc'] = sb0.WNc
+    block_dict['Mode'] = sb0.Mode
+    block_dict['N'] = sb0.N
+    block_dict['Payload'] = (< c1*>&sb0.Payload)[0:sb0.N]
+
+    return block_dict
+
+
+BLOCKPARSERS['EncapsulatedOutput'] = EncapsulatedOutput_toDict
+
+
 def LBandTrackerStatus_toDict(c1 * data):
     cdef LBandTrackerStatus * sb0
     cdef LBandTrackerStatus_TrackData * sb1
@@ -2303,6 +3189,44 @@ def LBandTrackerStatus_toDict(c1 * data):
 
 
 BLOCKPARSERS['LBandTrackerStatus'] = LBandTrackerStatus_toDict
+
+
+def LBandBeams_toDict(c1 * data):
+    cdef LBandBeams * sb0
+    cdef Beaminfo * sb1
+    cdef size_t i
+
+    cdef Beaminfo ** sb1s
+
+    sb0 = <LBandBeams * >data
+    i = sizeof(LBandBeams)
+
+    block_dict = dict()
+    block_dict['TOW'] = sb0.TOW
+    block_dict['WNc'] = sb0.WNc
+    block_dict['N'] = sb0.N
+    block_dict['SBLength'] = sb0.SBLength
+
+    sb1s = <Beaminfo ** >malloc(sb0.N * sizeof(Beaminfo * ) )
+
+    sb1_list = [None] * sb0.N
+    block_dict['Beaminfo'] = sb1_list
+
+    for n in xrange(sb0.N):
+        sb1 = sb1s[n] = <Beaminfo*>(data + i)
+        i += sb0.SBLength
+        sb1_dict = dict()
+        sb1_list[n] = sb1_dict
+        sb1_dict['SVID'] = sb1.SVID
+        block_dict['SatName'] = (< c1*>&sb1.SatName)[0:9]
+        sb1_dict['SatLongitude'] = sb1.SatLongitude
+        sb1_dict['BeamFreq'] = sb1.BeamFreq
+
+    free(sb1s)
+    return block_dict
+
+
+BLOCKPARSERS['LBandBeams'] = LBandBeams_toDict
 
 
 def DecoderStatus_toDict(c1 * data):
