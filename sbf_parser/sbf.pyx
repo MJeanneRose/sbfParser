@@ -1,5 +1,6 @@
-# JEANNE-ROSE Méven
-# 08/2023
+# Initial code by Jashandeep Sohi (2013, jashandeep.s.sohi@gmail.com)
+# adapted by Marco Job (2019, marco.job@bluewin.ch)
+# Update Meven Jeanne-Rose 2023
 
 from .blocks import BLOCKNAMES, BLOCKNUMBERS
 from .parsers cimport BLOCKPARSERS
@@ -32,15 +33,7 @@ def load(fobj, blocknames=[]):
     num_name_dict = dict(zip(BLOCKNUMBERS, BLOCKNAMES))
     
     blockparsers = {x: BLOCKPARSERS.get(x, BLOCKPARSERS['Unknown']) for x in set(num_name_dict.viewvalues())}
-    print("|",
-    "|",
-    "|")
-    for keys, value in blockparsers.items():
-        print(keys, value)
-    #print(blockparsers)
-    print("|",
-    "|",
-    "|")
+
     if not blockparsers:
         print("Unable to create parsers")
         return()
@@ -62,7 +55,7 @@ def load(fobj, blocknames=[]):
                     # Check crc
                     if h.CRC == crc16(body_ptr, body_length, crc16( & (h.ID), 4, 0)):
                         blockno = h.ID & 0x1fff
-                        blockrev = h.ID & 0xE000
+                        blockrev = (h.ID & 0xE000) >> 13
                         blockname = num_name_dict.get(blockno, 'Unknown')
                         if blockname == 'ExtEvent':
                             cnt+=1
@@ -71,7 +64,6 @@ def load(fobj, blocknames=[]):
                             block_dict = parser_func(( <char*>body_ptr)[0:body_length])
                             yield blockname, block_dict
 
-                    # Free body_ptr after parsing
                     else:
                         fseek(f, -HEADER_LEN + 1 - body_length, SEEK_CUR)
 
