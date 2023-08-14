@@ -5,14 +5,14 @@
 cdef dict BLOCKPARSERS = dict()
 
 
-def unknown_toDict(c1 * data):
+def unknown_toDict(c1 * data, u1 rev):
     return dict()
 
 
 BLOCKPARSERS['Unknown'] = unknown_toDict
 
 
-def MeasEpoch_toDict(c1 * data):
+def MeasEpoch_toDict(c1 * data, u1 rev):
     cdef MeasEpoch * sb0
     cdef MeasEpoch_Type_1 * sb1
     cdef MeasEpoch_Type_2 * sb2
@@ -85,7 +85,7 @@ def MeasEpoch_toDict(c1 * data):
 BLOCKPARSERS['MeasEpoch'] = MeasEpoch_toDict
 
 
-def MeasExtra_toDict(c1 * data):
+def MeasExtra_toDict(c1 * data, u1 rev):
     cdef MeasExtra * sb0
     cdef MeasExtraChannelSub * sb1
     cdef size_t i
@@ -129,7 +129,7 @@ def MeasExtra_toDict(c1 * data):
 BLOCKPARSERS['MeasExtra'] = MeasExtra_toDict
 
 
-def EndOfMeas_toDict(c1 * data):
+def EndOfMeas_toDict(c1 * data, u1 rev):
     cdef EndOfMeas * sb0
     sb0 = <EndOfMeas * >data
 
@@ -143,7 +143,7 @@ def EndOfMeas_toDict(c1 * data):
 BLOCKPARSERS['EndOfMeas'] = EndOfMeas_toDict
 
 
-def GPSRawCA_toDict(c1 * data):
+def GPSRawCA_toDict(c1 * data, u1 rev):
     cdef GPSRawCA * sb0
     sb0 = <GPSRawCA * >data
 
@@ -164,7 +164,7 @@ def GPSRawCA_toDict(c1 * data):
 BLOCKPARSERS['GPSRawCA'] = GPSRawCA_toDict
 
 
-def GPSRawL2C_toDict(c1 * data):
+def GPSRawL2C_toDict(c1 * data, u1 rev):
     cdef GPSRawL2C * sb0
     sb0 = <GPSRawL2C * >data
 
@@ -185,7 +185,7 @@ def GPSRawL2C_toDict(c1 * data):
 BLOCKPARSERS['GPSRawL2C'] = GPSRawL2C_toDict
 
 
-def GPSRawL5_toDict(c1 * data):
+def GPSRawL5_toDict(c1 * data, u1 rev):
     cdef GPSRawL5 * sb0
     sb0 = <GPSRawL5 * >data
 
@@ -206,7 +206,7 @@ def GPSRawL5_toDict(c1 * data):
 BLOCKPARSERS['GPSRawL5'] = GPSRawL5_toDict
 
 
-def GLORawCA_toDict(c1 * data):
+def GLORawCA_toDict(c1 * data, u1 rev):
     cdef GLORawCA * sb0
     sb0 = <GLORawCA * >data
 
@@ -227,7 +227,7 @@ def GLORawCA_toDict(c1 * data):
 BLOCKPARSERS['GLORawCA'] = GLORawCA_toDict
 
 
-def GALRawFNAV_toDict(c1 * data):
+def GALRawFNAV_toDict(c1 * data, u1 rev):
     cdef GALRawFNAV * sb0
     sb0 = <GALRawFNAV * >data
 
@@ -248,7 +248,7 @@ def GALRawFNAV_toDict(c1 * data):
 BLOCKPARSERS['GALRawFNAV'] = GALRawFNAV_toDict
 
 
-def GALRawINAV_toDict(c1 * data):
+def GALRawINAV_toDict(c1 * data, u1 rev):
     cdef GALRawINAV * sb0
     sb0 = <GALRawINAV * >data
 
@@ -269,7 +269,7 @@ def GALRawINAV_toDict(c1 * data):
 BLOCKPARSERS['GALRawINAV'] = GALRawINAV_toDict
 
 
-def GALRawCNAV_toDict(c1 * data):
+def GALRawCNAV_toDict(c1 * data, u1 rev):
     cdef GALRawCNAV * sb0
     sb0 = <GALRawCNAV * >data
 
@@ -290,7 +290,7 @@ def GALRawCNAV_toDict(c1 * data):
 BLOCKPARSERS['GALRawCNAV'] = GALRawCNAV_toDict
 
 
-def GEORawL1_toDict(c1 * data):
+def GEORawL1_toDict(c1 * data, u1 rev):
     cdef GEORawL1 * sb0
     sb0 = <GEORawL1 * >data
 
@@ -311,7 +311,7 @@ def GEORawL1_toDict(c1 * data):
 BLOCKPARSERS['GEORawL1'] = GEORawL1_toDict
 
 
-def GEORawL5_toDict(c1 * data):
+def GEORawL5_toDict(c1 * data, u1 rev):
     cdef GEORawL5 * sb0
     sb0 = <GEORawL5 * >data
 
@@ -332,7 +332,7 @@ def GEORawL5_toDict(c1 * data):
 BLOCKPARSERS['GEORawL1'] = GEORawL5_toDict
 
 
-def BDSRaw_toDict(c1 * data):
+def BDSRaw_toDict(c1 * data, u1 rev):
     cdef BDSRaw * sb0
     sb0 = <BDSRaw * >data
 
@@ -352,7 +352,7 @@ def BDSRaw_toDict(c1 * data):
 BLOCKPARSERS['BDSRaw'] = BDSRaw_toDict
 
 
-def BDSRawB1C_toDict(c1 * data):
+def BDSRawB1C_toDict(c1 * data, u1 rev):
     cdef BDSRawB1C * sb0
     sb0 = <BDSRawB1C * >data
 
@@ -372,7 +372,7 @@ def BDSRawB1C_toDict(c1 * data):
 BLOCKPARSERS['BDSRawB1C'] = BDSRawB1C_toDict
 
 
-def BDSRawB2a_toDict(c1 * data):
+def BDSRawB2a_toDict(c1 * data, u1 rev):
     cdef BDSRawB2a * sb0
     sb0 = <BDSRawB2a * >data
 
@@ -392,7 +392,7 @@ def BDSRawB2a_toDict(c1 * data):
 BLOCKPARSERS['BDSRawB2a'] = BDSRawB2a_toDict
 
 
-def BDSRawB2b_toDict(c1 * data):
+def BDSRawB2b_toDict(c1 * data, u1 rev):
     cdef BDSRawB2b * sb0
     sb0 = <BDSRawB2b * >data
 
@@ -411,7 +411,7 @@ def BDSRawB2b_toDict(c1 * data):
 BLOCKPARSERS['BDSRawB2b'] = BDSRawB2b_toDict
 
 
-def QZSRawL1CA_toDict(c1 * data):
+def QZSRawL1CA_toDict(c1 * data, u1 rev):
     cdef QZSRawL1CA * sb0
     sb0 = <QZSRawL1CA * >data
 
@@ -430,7 +430,7 @@ def QZSRawL1CA_toDict(c1 * data):
 BLOCKPARSERS['QZSRawL1CA'] = QZSRawL1CA_toDict
 
 
-def QZSRawL2C_toDict(c1 * data):
+def QZSRawL2C_toDict(c1 * data, u1 rev):
     cdef QZSRawL2C * sb0
     sb0 = <QZSRawL2C * >data
 
@@ -450,7 +450,7 @@ def QZSRawL2C_toDict(c1 * data):
 BLOCKPARSERS['QZSRawL2C'] = QZSRawL2C_toDict
 
 
-def QZSRawL5_toDict(c1 * data):
+def QZSRawL5_toDict(c1 * data, u1 rev):
     cdef QZSRawL5 * sb0
     sb0 = <QZSRawL5 * >data
 
@@ -470,7 +470,7 @@ def QZSRawL5_toDict(c1 * data):
 BLOCKPARSERS['QZSRawL5'] = QZSRawL5_toDict
 
 
-def NAVICRaw_toDict(c1 * data):
+def NAVICRaw_toDict(c1 * data, u1 rev):
     cdef NAVICRaw * sb0
     sb0 = <NAVICRaw * >data
 
@@ -490,7 +490,7 @@ def NAVICRaw_toDict(c1 * data):
 BLOCKPARSERS['NAVICRaw'] = NAVICRaw_toDict
 
 
-def GPSNav_toDict(c1 * data):
+def GPSNav_toDict(c1 * data, u1 rev):
     cdef GPSNav * sb0
     sb0 = <GPSNav * >data
 
@@ -537,7 +537,7 @@ def GPSNav_toDict(c1 * data):
 BLOCKPARSERS['GPSNav'] = GPSNav_toDict
 
 
-def GPSAlm_toDict(c1 * data):
+def GPSAlm_toDict(c1 * data, u1 rev):
     cdef GPSAlm * sb0
     sb0 = <GPSAlm * >data
 
@@ -566,7 +566,7 @@ def GPSAlm_toDict(c1 * data):
 BLOCKPARSERS['GPSAlm'] = GPSAlm_toDict
 
 
-def GPSIon_toDict(c1 * data):
+def GPSIon_toDict(c1 * data, u1 rev):
     cdef GPSIon * sb0
     sb0 = <GPSIon * >data
 
@@ -589,7 +589,7 @@ def GPSIon_toDict(c1 * data):
 BLOCKPARSERS['GPSIon'] = GPSIon_toDict
 
 
-def GPSUtc_toDict(c1 * data):
+def GPSUtc_toDict(c1 * data, u1 rev):
     cdef GPSUtc * sb0
     sb0 = <GPSUtc * >data
 
@@ -611,7 +611,7 @@ def GPSUtc_toDict(c1 * data):
 
 BLOCKPARSERS['GPSUtc'] = GPSUtc_toDict
 
-def GPSCNav_toDict(c1 * data):
+def GPSCNav_toDict(c1 * data, u1 rev):
     cdef GPSCNav * sb0
     sb0 = <GPSCNav * >data
 
@@ -662,7 +662,7 @@ def GPSCNav_toDict(c1 * data):
 BLOCKPARSERS['GPSCNav'] = GPSCNav_toDict
 
 
-def GLONav_toDict(c1 * data):
+def GLONav_toDict(c1 * data, u1 rev):
     cdef GLONav * sb0
     sb0 = <GLONav * >data
 
@@ -704,7 +704,7 @@ def GLONav_toDict(c1 * data):
 BLOCKPARSERS['GLONav'] = GLONav_toDict
 
 
-def GLOAlm_toDict(c1 * data):
+def GLOAlm_toDict(c1 * data, u1 rev):
     cdef GLOAlm * sb0
     sb0 = <GLOAlm * >data
 
@@ -734,7 +734,7 @@ def GLOAlm_toDict(c1 * data):
 BLOCKPARSERS['GLOAlm'] = GLOAlm_toDict
 
 
-def GLOTime_toDict(c1 * data):
+def GLOTime_toDict(c1 * data, u1 rev):
     cdef GLOTime * sb0
     sb0 = <GLOTime * >data
 
@@ -757,7 +757,7 @@ def GLOTime_toDict(c1 * data):
 BLOCKPARSERS['GLOTime'] = GLOTime_toDict
 
 
-def GALNav_toDict(c1 * data):
+def GALNav_toDict(c1 * data, u1 rev):
     cdef GALNav * sb0
     sb0 = <GALNav * >data
 
@@ -805,7 +805,7 @@ def GALNav_toDict(c1 * data):
 BLOCKPARSERS['GALNav'] = GALNav_toDict
 
 
-def GALAlm_toDict(c1 * data):
+def GALAlm_toDict(c1 * data, u1 rev):
     cdef GALAlm * sb0
     sb0 = <GALAlm * >data
 
@@ -835,7 +835,7 @@ def GALAlm_toDict(c1 * data):
 BLOCKPARSERS['GALAlm'] = GALAlm_toDict
 
 
-def GALIon_toDict(c1 * data):
+def GALIon_toDict(c1 * data, u1 rev):
     cdef GALIon * sb0
     sb0 = <GALIon * >data
 
@@ -855,7 +855,7 @@ def GALIon_toDict(c1 * data):
 BLOCKPARSERS['GALIon'] = GALIon_toDict
 
 
-def GALUtc_toDict(c1 * data):
+def GALUtc_toDict(c1 * data, u1 rev):
     cdef GALUtc * sb0
     sb0 = <GALUtc * >data
 
@@ -879,7 +879,7 @@ def GALUtc_toDict(c1 * data):
 BLOCKPARSERS['GALUtc'] = GALUtc_toDict
 
 
-def GALGstGps_toDict(c1 * data):
+def GALGstGps_toDict(c1 * data, u1 rev):
     cdef GALGstGps * sb0
     sb0 = <GALGstGps * >data
 
@@ -899,7 +899,7 @@ def GALGstGps_toDict(c1 * data):
 BLOCKPARSERS['GALGstGps'] = GALGstGps_toDict
 
 
-def GALSARRLM_toDict(c1 * data):
+def GALSARRLM_toDict(c1 * data, u1 rev):
     cdef GALSARRLM * sb0
     sb0 = <GALSARRLM * >data
 
@@ -921,7 +921,7 @@ def GALSARRLM_toDict(c1 * data):
 BLOCKPARSERS['GALSARRLM'] = GALSARRLM_toDict
 
 
-def BDSNav_toDict(c1 * data):
+def BDSNav_toDict(c1 * data, u1 rev):
     cdef BDSNav * sb0
     sb0 = <BDSNav * >data
 
@@ -965,7 +965,7 @@ def BDSNav_toDict(c1 * data):
 BLOCKPARSERS['BDSNav'] = BDSNav_toDict
 
 
-def BDSAlm_toDict(c1 * data):
+def BDSAlm_toDict(c1 * data, u1 rev):
     cdef BDSAlm * sb0
     sb0 = <BDSAlm * >data
 
@@ -991,7 +991,7 @@ def BDSAlm_toDict(c1 * data):
 BLOCKPARSERS['BDSAlm'] = BDSAlm_toDict
 
 
-def BDSIon_toDict(c1 * data):
+def BDSIon_toDict(c1 * data, u1 rev):
     cdef BDSIon * sb0
     sb0 = <BDSIon * >data
 
@@ -1014,7 +1014,7 @@ def BDSIon_toDict(c1 * data):
 BLOCKPARSERS['BDSIon'] = BDSIon_toDict
 
 
-def BDSUtc_toDict(c1 * data):
+def BDSUtc_toDict(c1 * data, u1 rev):
     cdef BDSUtc * sb0
     sb0 = <BDSUtc * >data
 
@@ -1035,7 +1035,7 @@ def BDSUtc_toDict(c1 * data):
 BLOCKPARSERS['BDSUtc'] = BDSUtc_toDict
 
 
-def QZSNav_toDict(c1 * data):
+def QZSNav_toDict(c1 * data, u1 rev):
     cdef QZSNav * sb0
     sb0 = <QZSNav * >data
 
@@ -1082,7 +1082,7 @@ def QZSNav_toDict(c1 * data):
 BLOCKPARSERS['QZSNav'] = QZSNav_toDict
 
 
-def QZSAlm_toDict(c1 * data):
+def QZSAlm_toDict(c1 * data, u1 rev):
     cdef QZSAlm * sb0
     sb0 = <QZSAlm * >data
 
@@ -1110,7 +1110,7 @@ def QZSAlm_toDict(c1 * data):
 BLOCKPARSERS['QZSAlm'] = QZSAlm_toDict
 
 
-def GEOMT00_toDict(c1 * data):
+def GEOMT00_toDict(c1 * data, u1 rev):
     cdef GEOMT00 * sb0
     sb0 = <GEOMT00 * >data
 
@@ -1125,7 +1125,7 @@ def GEOMT00_toDict(c1 * data):
 BLOCKPARSERS['GEOMT00'] = GEOMT00_toDict
 
 
-def GEOPRNMask_toDict(c1 * data):
+def GEOPRNMask_toDict(c1 * data, u1 rev):
     cdef GEOPRNMask * sb0
     sb0 = <GEOPRNMask * >data
 
@@ -1144,7 +1144,7 @@ def GEOPRNMask_toDict(c1 * data):
 BLOCKPARSERS['GEOPRNMask'] = GEOPRNMask_toDict
 
 
-def GEOFastCorr_toDict(c1 * data):
+def GEOFastCorr_toDict(c1 * data, u1 rev):
     cdef GEOFastCorr * sb0
     cdef GEOFastCorr_FastCorr * sb1
     cdef size_t i
@@ -1185,7 +1185,7 @@ def GEOFastCorr_toDict(c1 * data):
 BLOCKPARSERS['GEOFastCorr'] = GEOFastCorr_toDict
 
 
-def GEOIntegrity_toDict(c1 * data):
+def GEOIntegrity_toDict(c1 * data, u1 rev):
     cdef GEOIntegrity * sb0
     sb0 = <GEOIntegrity * >data
 
@@ -1202,7 +1202,7 @@ def GEOIntegrity_toDict(c1 * data):
 BLOCKPARSERS['GEOIntegrity'] = GEOIntegrity_toDict
 
 
-def GEOFastCorrDegr_toDict(c1 * data):
+def GEOFastCorrDegr_toDict(c1 * data, u1 rev):
     cdef GEOFastCorrDegr * sb0
     sb0 = <GEOFastCorrDegr * >data
 
@@ -1220,7 +1220,7 @@ def GEOFastCorrDegr_toDict(c1 * data):
 BLOCKPARSERS['GEOFastCorrDegr'] = GEOFastCorrDegr_toDict
 
 
-def GEONav_toDict(c1 * data):
+def GEONav_toDict(c1 * data, u1 rev):
     cdef GEONav * sb0
     sb0 = <GEONav * >data
 
@@ -1249,7 +1249,7 @@ def GEONav_toDict(c1 * data):
 BLOCKPARSERS['GEONav'] = GEONav_toDict
 
 
-def GEODegrFactors_toDict(c1 * data):
+def GEODegrFactors_toDict(c1 * data, u1 rev):
     cdef GEODegrFactors * sb0
     sb0 = <GEODegrFactors * >data
 
@@ -1280,7 +1280,7 @@ def GEODegrFactors_toDict(c1 * data):
 BLOCKPARSERS['GEODegrFactors'] = GEODegrFactors_toDict
 
 
-def GEONetworkTime_toDict(c1 * data):
+def GEONetworkTime_toDict(c1 * data, u1 rev):
     cdef GEONetworkTime * sb0
     sb0 = <GEONetworkTime * >data
 
@@ -1307,7 +1307,7 @@ def GEONetworkTime_toDict(c1 * data):
 BLOCKPARSERS['GEONetworkTime'] = GEONetworkTime_toDict
 
 
-def GEOAlm_toDict(c1 * data):
+def GEOAlm_toDict(c1 * data, u1 rev):
     cdef GEOAlm * sb0
     sb0 = <GEOAlm * >data
 
@@ -1331,7 +1331,7 @@ def GEOAlm_toDict(c1 * data):
 BLOCKPARSERS['GEOAlm'] = GEOAlm_toDict
 
 
-def GEOIGPMask_toDict(c1 * data):
+def GEOIGPMask_toDict(c1 * data, u1 rev):
     cdef GEOIGPMask * sb0
     sb0 = <GEOIGPMask * >data
 
@@ -1352,7 +1352,7 @@ def GEOIGPMask_toDict(c1 * data):
 BLOCKPARSERS['GEOIGPMask'] = GEOIGPMask_toDict
 
 
-def GEOLongTermCorr_toDict(c1 * data):
+def GEOLongTermCorr_toDict(c1 * data, u1 rev):
     cdef GEOLongTermCorr * sb0
     cdef GEOLongTermCorr_LTCorr * sb1
     cdef size_t i
@@ -1400,7 +1400,7 @@ def GEOLongTermCorr_toDict(c1 * data):
 BLOCKPARSERS['GEOLongTermCorr'] = GEOLongTermCorr_toDict
 
 
-def GEOIonoDelay_toDict(c1 * data):
+def GEOIonoDelay_toDict(c1 * data, u1 rev):
     cdef GEOIonoDelay * sb0
     cdef GEOIonoDelay_IDC * sb1
     cdef size_t i
@@ -1440,7 +1440,7 @@ def GEOIonoDelay_toDict(c1 * data):
 BLOCKPARSERS['GEOIonoDelay'] = GEOIonoDelay_toDict
 
 
-def GEOServiceLevel_toDict(c1 * data):
+def GEOServiceLevel_toDict(c1 * data, u1 rev):
     cdef GEOServiceLevel * sb0
     cdef GEOServiceLevel_ServiceRegion * sb1
     cdef size_t i
@@ -1486,7 +1486,7 @@ def GEOServiceLevel_toDict(c1 * data):
 BLOCKPARSERS['GEOServiceLevel'] = GEOServiceLevel_toDict
 
 
-def GEOClockEphCovMatrix_toDict(c1 * data):
+def GEOClockEphCovMatrix_toDict(c1 * data, u1 rev):
     cdef GEOClockEphCovMatrix * sb0
     cdef GEOClockEphCovMatrix_CovMatrix * sb1
     cdef size_t i
@@ -1534,7 +1534,7 @@ def GEOClockEphCovMatrix_toDict(c1 * data):
 BLOCKPARSERS['GEOClockEphCovMatrix'] = GEOClockEphCovMatrix_toDict
 
 
-def PVTCartesian_toDict(c1 * data):
+def PVTCartesian_toDict(c1 * data, u1 rev):
     cdef PVTCartesian * sb0
     sb0 = <PVTCartesian * >data
 
@@ -1574,7 +1574,7 @@ def PVTCartesian_toDict(c1 * data):
 BLOCKPARSERS['PVTCartesian'] = PVTCartesian_toDict
 
 
-def PVTGeodetic_toDict(c1 * data):
+def PVTGeodetic_toDict(c1 * data, u1 rev):
     cdef PVTGeodetic * sb0
     sb0 = <PVTGeodetic * >data
 
@@ -1614,7 +1614,7 @@ def PVTGeodetic_toDict(c1 * data):
 BLOCKPARSERS['PVTGeodetic'] = PVTGeodetic_toDict
 
 
-def PosCovCartesian_toDict(c1 * data):
+def PosCovCartesian_toDict(c1 * data, u1 rev):
     cdef PosCovCartesian * sb0
     sb0 = <PosCovCartesian * >data
 
@@ -1640,7 +1640,7 @@ def PosCovCartesian_toDict(c1 * data):
 BLOCKPARSERS['PosCovCartesian'] = PosCovCartesian_toDict
 
 
-def PosCovGeodetic_toDict(c1 * data):
+def PosCovGeodetic_toDict(c1 * data, u1 rev):
     cdef PosCovGeodetic * sb0
     sb0 = <PosCovGeodetic * >data
 
@@ -1666,7 +1666,7 @@ def PosCovGeodetic_toDict(c1 * data):
 BLOCKPARSERS['PosCovGeodetic'] = PosCovGeodetic_toDict
 
 
-def VelCovCartesian_toDict(c1 * data):
+def VelCovCartesian_toDict(c1 * data, u1 rev):
     cdef VelCovCartesian * sb0
     sb0 = <VelCovCartesian * >data
 
@@ -1692,7 +1692,7 @@ def VelCovCartesian_toDict(c1 * data):
 BLOCKPARSERS['VelCovCartesian'] = VelCovCartesian_toDict
 
 
-def VelCovGeodetic_toDict(c1 * data):
+def VelCovGeodetic_toDict(c1 * data, u1 rev):
     cdef VelCovGeodetic * sb0
     sb0 = <VelCovGeodetic * >data
 
@@ -1718,7 +1718,7 @@ def VelCovGeodetic_toDict(c1 * data):
 BLOCKPARSERS['VelCovGeodetic'] = VelCovGeodetic_toDict
 
 
-def DOP_toDict(c1 * data):
+def DOP_toDict(c1 * data, u1 rev):
     cdef DOP * sb0
     sb0 = <DOP * >data
 
@@ -1739,7 +1739,7 @@ def DOP_toDict(c1 * data):
 BLOCKPARSERS['DOP'] = DOP_toDict
 
 
-def PosCart_toDict(c1 * data):
+def PosCart_toDict(c1 * data, u1 rev):
     cdef PosCart * sb0
     sb0 = <PosCart * >data
 
@@ -1778,7 +1778,7 @@ def PosCart_toDict(c1 * data):
 BLOCKPARSERS['PosCart'] = PosCart_toDict
 
 
-def PosLocal_toDict(c1 * data):
+def PosLocal_toDict(c1 * data, u1 rev):
     cdef PosLocal * sb0
     sb0 = <PosLocal * >data
 
@@ -1798,7 +1798,7 @@ def PosLocal_toDict(c1 * data):
 BLOCKPARSERS['PosLocal'] = PosLocal_toDict
 
 
-def PosProjected_toDict(c1 * data):
+def PosProjected_toDict(c1 * data, u1 rev):
     cdef PosProjected * sb0
     sb0 = <PosProjected * >data
 
@@ -1818,7 +1818,7 @@ def PosProjected_toDict(c1 * data):
 BLOCKPARSERS['PosProjected'] = PosProjected_toDict
 
 
-def BaseVectorCart_toDict(c1 * data):
+def BaseVectorCart_toDict(c1 * data, u1 rev):
     cdef BaseVectorCart * sb0
     cdef BaseVectorCart_VectorInfoCart * sb1
     cdef size_t i
@@ -1867,7 +1867,7 @@ def BaseVectorCart_toDict(c1 * data):
 BLOCKPARSERS['BaseVectorCart'] = BaseVectorCart_toDict
 
 
-def BaseVectorGeod_toDict(c1 * data):
+def BaseVectorGeod_toDict(c1 * data, u1 rev):
     cdef BaseVectorGeod * sb0
     cdef BaseVectorGeod_VectorInfoGeod * sb1
     cdef size_t i
@@ -1916,7 +1916,7 @@ def BaseVectorGeod_toDict(c1 * data):
 BLOCKPARSERS['BaseVectorGeod'] = BaseVectorGeod_toDict
 
 
-def EndOfPVT_toDict(c1 * data):
+def EndOfPVT_toDict(c1 * data, u1 rev):
     cdef EndOfPVT * sb0
     sb0 = <EndOfPVT * >data
 
@@ -1930,7 +1930,7 @@ def EndOfPVT_toDict(c1 * data):
 BLOCKPARSERS['EndOfPVT'] = EndOfPVT_toDict
 
 
-def AttEuler_toDict(c1 * data):
+def AttEuler_toDict(c1 * data, u1 rev):
     cdef AttEuler * sb0
     sb0 = <AttEuler * >data
 
@@ -1953,7 +1953,7 @@ def AttEuler_toDict(c1 * data):
 BLOCKPARSERS['AttEuler'] = AttEuler_toDict
 
 
-def AttCovEuler_toDict(c1 * data):
+def AttCovEuler_toDict(c1 * data, u1 rev):
     cdef AttCovEuler * sb0
     sb0 = <AttCovEuler * >data
 
@@ -1974,7 +1974,7 @@ def AttCovEuler_toDict(c1 * data):
 BLOCKPARSERS['AttCovEuler'] = AttCovEuler_toDict
 
 
-def EndOfAtt_toDict(c1 * data):
+def EndOfAtt_toDict(c1 * data, u1 rev):
     cdef EndOfAtt * sb0
     sb0 = <EndOfAtt * >data
 
@@ -1988,7 +1988,7 @@ def EndOfAtt_toDict(c1 * data):
 BLOCKPARSERS['EndOfAtt'] = EndOfAtt_toDict
 
 
-def ReceiverTime_toDict(c1 * data):
+def ReceiverTime_toDict(c1 * data, u1 rev):
     cdef ReceiverTime * sb0
     sb0 = <ReceiverTime * >data
 
@@ -2010,7 +2010,7 @@ def ReceiverTime_toDict(c1 * data):
 BLOCKPARSERS['ReceiverTime'] = ReceiverTime_toDict
 
 
-def xPPSOffset_toDict(c1 * data):
+def xPPSOffset_toDict(c1 * data, u1 rev):
     cdef xPPSOffset * sb0
     sb0 = <xPPSOffset * >data
 
@@ -2027,7 +2027,7 @@ def xPPSOffset_toDict(c1 * data):
 BLOCKPARSERS['xPPSOffset'] = xPPSOffset_toDict
 
 
-def ExtEvent_toDict(c1 * data):
+def ExtEvent_toDict(c1 * data, u1 rev):
     cdef ExtEvent * sb0
     sb0 = <ExtEvent * >data
 
@@ -2046,7 +2046,7 @@ def ExtEvent_toDict(c1 * data):
 BLOCKPARSERS['ExtEvent'] = ExtEvent_toDict
 
 
-def ExtEventPVTCartesian_toDict(c1 * data):
+def ExtEventPVTCartesian_toDict(c1 * data, u1 rev):
     cdef ExtEventPVTCartesian * sb0
     sb0 = <ExtEventPVTCartesian * >data
 
@@ -2086,7 +2086,7 @@ def ExtEventPVTCartesian_toDict(c1 * data):
 BLOCKPARSERS['ExtEventPVTCartesian'] = ExtEventPVTCartesian_toDict
 
 
-def ExtEventPVTGeodetic_toDict(c1 * data):
+def ExtEventPVTGeodetic_toDict(c1 * data, u1 rev):
     cdef ExtEventPVTGeodetic * sb0
     sb0 = <ExtEventPVTGeodetic * >data
 
@@ -2125,7 +2125,7 @@ def ExtEventPVTGeodetic_toDict(c1 * data):
 
 BLOCKPARSERS['ExtEventPVTGeodetic'] = ExtEventPVTGeodetic_toDict
 
-def ExtEventBaseVectGeod_toDict(c1 * data):
+def ExtEventBaseVectGeod_toDict(c1 * data, u1 rev):
     cdef ExtEventBaseVectGeod * sb0
     cdef ExtEventVectorInfoGeod * sb1
     cdef size_t i
@@ -2173,7 +2173,7 @@ def ExtEventBaseVectGeod_toDict(c1 * data):
 
 BLOCKPARSERS['ExtEventBaseVectGeod'] = ExtEventBaseVectGeod_toDict
 
-def ExtEventAttEuler_toDict(c1 * data):
+def ExtEventAttEuler_toDict(c1 * data, u1 rev):
     cdef ExtEventAttEuler * sb0
     sb0 = <ExtEventAttEuler * >data
 
@@ -2196,7 +2196,7 @@ def ExtEventAttEuler_toDict(c1 * data):
 BLOCKPARSERS['ExtEventAttEuler'] = ExtEventAttEuler_toDict
 
 
-def DiffCorrIn_toDict(c1 * data):
+def DiffCorrIn_toDict(c1 * data, u1 rev):
     cdef DiffCorrIn * sb0
     sb0 = <DiffCorrIn * >data
 
@@ -2213,7 +2213,7 @@ def DiffCorrIn_toDict(c1 * data):
 BLOCKPARSERS['DiffCorrIn'] = DiffCorrIn_toDict
 
 
-def BaseStation_toDict(c1 * data):
+def BaseStation_toDict(c1 * data, u1 rev):
     cdef BaseStation * sb0
     sb0 = <BaseStation * >data
 
@@ -2234,7 +2234,7 @@ def BaseStation_toDict(c1 * data):
 BLOCKPARSERS['BaseStation'] = BaseStation_toDict
 
 
-def RTCMDatum_toDict(c1 * data):
+def RTCMDatum_toDict(c1 * data, u1 rev):
     cdef RTCMDatum * sb0
     sb0 = <RTCMDatum * >data
 
@@ -2253,7 +2253,7 @@ def RTCMDatum_toDict(c1 * data):
 BLOCKPARSERS['RTCMDatum'] = RTCMDatum_toDict
 
 
-def LBandTrackerStatus_toDict(c1 * data):
+def LBandTrackerStatus_toDict(c1 * data, u1 rev):
     cdef LBandTrackerStatus * sb0
     cdef LBandTrackerStatus_TrackData * sb1
     cdef size_t i
@@ -2299,7 +2299,7 @@ def LBandTrackerStatus_toDict(c1 * data):
 BLOCKPARSERS['LBandTrackerStatus'] = LBandTrackerStatus_toDict
 
 
-def LBandBeams_toDict(c1 * data):
+def LBandBeams_toDict(c1 * data, u1 rev):
     cdef LBandBeams * sb0
     cdef Beaminfo * sb1
     cdef size_t i
@@ -2337,7 +2337,7 @@ def LBandBeams_toDict(c1 * data):
 BLOCKPARSERS['LBandBeams'] = LBandBeams_toDict
 
 
-def LBandRaw_toDict(c1 * data):
+def LBandRaw_toDict(c1 * data, u1 rev):
     cdef LBandRaw * sb0
     sb0 = <LBandRaw * >data
 
@@ -2355,7 +2355,7 @@ def LBandRaw_toDict(c1 * data):
 BLOCKPARSERS['LBandRaw'] = LBandRaw_toDict
 
 
-def FugroStatus_toDict(c1 * data):
+def FugroStatus_toDict(c1 * data, u1 rev):
     cdef FugroStatus * sb0
     sb0 = <FugroStatus * >data
 
@@ -2379,7 +2379,7 @@ def FugroStatus_toDict(c1 * data):
 BLOCKPARSERS['FugroStatus'] = FugroStatus_toDict
 
 
-def ChannelStatus_toDict(c1 * data):
+def ChannelStatus_toDict(c1 * data, u1 rev):
     cdef ChannelStatus * sb0
     cdef ChannelStatus_ChannelSatInfo * sb1
     cdef ChannelStatus_ChannelStateInfo * sb2
@@ -2440,7 +2440,7 @@ def ChannelStatus_toDict(c1 * data):
 BLOCKPARSERS['ChannelStatus'] = ChannelStatus_toDict
 
 
-def ReceiverStatus_toDict(c1 * data):
+def ReceiverStatus_toDict(c1 * data, u1 rev):
     cdef ReceiverStatus * sb0
     cdef ReceiverStatus_AGCState * sb1
     cdef size_t i
@@ -2485,7 +2485,7 @@ def ReceiverStatus_toDict(c1 * data):
 BLOCKPARSERS['ReceiverStatus'] = ReceiverStatus_toDict
 
 
-def SatVisibility_toDict(c1 * data):
+def SatVisibility_toDict(c1 * data, u1 rev):
     cdef SatVisibility * sb0
     cdef SatVisibility_SatInfo * sb1
     cdef size_t i
@@ -2525,7 +2525,7 @@ def SatVisibility_toDict(c1 * data):
 BLOCKPARSERS['SatVisibility'] = SatVisibility_toDict
 
 
-def InputLink_toDict(c1 * data):
+def InputLink_toDict(c1 * data, u1 rev):
     cdef InputLink * sb0
     cdef InputLink_InputStats * sb1
     cdef size_t i
@@ -2566,7 +2566,7 @@ def InputLink_toDict(c1 * data):
 BLOCKPARSERS['InputLink'] = InputLink_toDict
 
 
-def OutputLink_toDict(c1 * data):
+def OutputLink_toDict(c1 * data, u1 rev):
     cdef OutputLink * sb0
     cdef OutputLink_OutputStats * sb1
     cdef OutputLink_OutputType * sb2
@@ -2624,7 +2624,7 @@ def OutputLink_toDict(c1 * data):
 BLOCKPARSERS['OutputLink'] = OutputLink_toDict
 
 
-def NTRIPClientStatus_toDict(c1 * data):
+def NTRIPClientStatus_toDict(c1 * data, u1 rev):
     cdef NTRIPClientStatus * sb0
     cdef NTRIPClientConnection * sb1
     cdef size_t i
@@ -2662,7 +2662,7 @@ def NTRIPClientStatus_toDict(c1 * data):
 BLOCKPARSERS['NTRIPClientStatus'] = NTRIPClientStatus_toDict
 
 
-def NTRIPServerStatus_toDict(c1 * data):
+def NTRIPServerStatus_toDict(c1 * data, u1 rev):
     cdef NTRIPServerStatus * sb0
     cdef NTRIPServerConnection * sb1
     cdef size_t i
@@ -2700,7 +2700,7 @@ def NTRIPServerStatus_toDict(c1 * data):
 BLOCKPARSERS['NTRIPServerStatus'] = NTRIPServerStatus_toDict
 
 
-def IPStatus_toDict(c1 * data):
+def IPStatus_toDict(c1 * data, u1 rev):
     cdef IPStatus * sb0
     sb0 = <IPStatus * >data
 
@@ -2719,7 +2719,7 @@ def IPStatus_toDict(c1 * data):
 BLOCKPARSERS['IPStatus'] = IPStatus_toDict
 
 
-def DynDNSStatus_toDict(c1 * data):
+def DynDNSStatus_toDict(c1 * data, u1 rev):
     cdef DynDNSStatus * sb0
     sb0 = <DynDNSStatus * >data
 
@@ -2736,7 +2736,7 @@ def DynDNSStatus_toDict(c1 * data):
 BLOCKPARSERS['DynDNSStatus'] = DynDNSStatus_toDict
 
 
-def QualityInd_toDict(c1 * data):
+def QualityInd_toDict(c1 * data, u1 rev):
     cdef QualityInd * sb0
     sb0 = <QualityInd * >data
 
@@ -2754,7 +2754,7 @@ def QualityInd_toDict(c1 * data):
 BLOCKPARSERS['QualityInd'] = QualityInd_toDict
 
 
-def DiskStatus_toDict(c1 * data):
+def DiskStatus_toDict(c1 * data, u1 rev):
     cdef DiskStatus * sb0
     cdef DiskData * sb1
     cdef size_t i
@@ -2795,7 +2795,7 @@ def DiskStatus_toDict(c1 * data):
 BLOCKPARSERS['DiskStatus'] = DiskStatus_toDict
 
 
-def RFStatus_toDict(c1 * data):
+def RFStatus_toDict(c1 * data, u1 rev):
     cdef RFStatus * sb0
     cdef RFBand * sb1
     cdef size_t i
@@ -2833,7 +2833,7 @@ def RFStatus_toDict(c1 * data):
 BLOCKPARSERS['RFStatus'] = RFStatus_toDict
 
 
-def P2PPStatus_toDict(c1 * data):
+def P2PPStatus_toDict(c1 * data, u1 rev):
     cdef P2PPStatus * sb0
     cdef P2PPSession * sb1
     cdef size_t i
@@ -2871,7 +2871,7 @@ def P2PPStatus_toDict(c1 * data):
 BLOCKPARSERS['P2PPStatus'] = P2PPStatus_toDict
 
 
-def CosmosStatus_toDict(c1 * data):
+def CosmosStatus_toDict(c1 * data, u1 rev):
     cdef CosmosStatus * sb0
     sb0 = <CosmosStatus * >data
 
@@ -2886,7 +2886,7 @@ def CosmosStatus_toDict(c1 * data):
 BLOCKPARSERS['CosmosStatus'] = CosmosStatus_toDict
 
 
-def GALAuthStatus_toDict(c1 * data):
+def GALAuthStatus_toDict(c1 * data, u1 rev):
     cdef GALAuthStatus * sb0
     sb0 = <GALAuthStatus * >data
 
@@ -2906,7 +2906,7 @@ def GALAuthStatus_toDict(c1 * data):
 BLOCKPARSERS['GALAuthStatus'] = GALAuthStatus_toDict
 
 
-def ReceiverSetup_toDict(c1 * data):
+def ReceiverSetup_toDict(c1 * data, u1 rev):
     cdef ReceiverSetup * sb0
     sb0 = <ReceiverSetup * >data
 
@@ -2942,7 +2942,7 @@ def ReceiverSetup_toDict(c1 * data):
 BLOCKPARSERS['ReceiverSetup'] = ReceiverSetup_toDict
 
 
-def RxMessage_toDict(c1 * data):
+def RxMessage_toDict(c1 * data, u1 rev):
     cdef RxMessage * sb0
     sb0 = <RxMessage * >data
 
@@ -2962,7 +2962,7 @@ def RxMessage_toDict(c1 * data):
 BLOCKPARSERS['RxMessage'] = RxMessage_toDict
 
 
-def Commands_toDict(c1 * data):
+def Commands_toDict(c1 * data, u1 rev):
     cdef Commands * sb0
     sb0 = <Commands * >data
 
@@ -2977,7 +2977,7 @@ def Commands_toDict(c1 * data):
 BLOCKPARSERS['Commands'] = Commands_toDict
 
 
-def Comment_toDict(c1 * data):
+def Comment_toDict(c1 * data, u1 rev):
     cdef Comment * sb0
     sb0 = <Comment * >data
 
@@ -2994,7 +2994,7 @@ def Comment_toDict(c1 * data):
 BLOCKPARSERS['Comment'] = Comment_toDict
 
 
-def BBSamples_toDict(c1 * data):
+def BBSamples_toDict(c1 * data, u1 rev):
     cdef BBSamples * sb0
     sb0 = <BBSamples * >data
 
@@ -3014,7 +3014,7 @@ def BBSamples_toDict(c1 * data):
 BLOCKPARSERS['BBSamples'] = BBSamples_toDict
 
 
-def ASCIIIn_toDict(c1 * data):
+def ASCIIIn_toDict(c1 * data, u1 rev):
     cdef ASCIIIn * sb0
     sb0 = <ASCIIIn * >data
 
@@ -3033,7 +3033,7 @@ def ASCIIIn_toDict(c1 * data):
 BLOCKPARSERS['ASCIIIn'] = ASCIIIn_toDict
 
 
-def EncapsulatedOutput_toDict(c1 * data):
+def EncapsulatedOutput_toDict(c1 * data, u1 rev):
     cdef EncapsulatedOutput * sb0
     sb0 = <EncapsulatedOutput * >data
 
@@ -3050,7 +3050,7 @@ def EncapsulatedOutput_toDict(c1 * data):
 BLOCKPARSERS['EncapsulatedOutput'] = EncapsulatedOutput_toDict
 
 
-def GISAction_toDict(c1 * data):
+def GISAction_toDict(c1 * data, u1 rev):
     cdef GISAction * sb0
     sb0 = <GISAction * >data
 
@@ -3072,7 +3072,7 @@ def GISAction_toDict(c1 * data):
 BLOCKPARSERS['GISAction'] = GISAction_toDict
 
 
-def GISStatus_toDict(c1 * data):
+def GISStatus_toDict(c1 * data, u1 rev):
     cdef GISStatus * sb0
     cdef DatabaseStatus * sb1
     cdef size_t i
