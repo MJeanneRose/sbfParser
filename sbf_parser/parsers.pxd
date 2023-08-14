@@ -1,5 +1,6 @@
-# JEANNE-ROSE Méven
-# 08/2023
+# Initial code by Jashandeep Sohi (2013, jashandeep.s.sohi@gmail.com)
+# adapted by Marco Job (2019, marco.job@bluewin.ch)
+# Update Meven Jeanne-Rose 2023
 
 from libc.stdint cimport uint8_t, uint16_t, uint32_t, uint64_t, int8_t, int16_t, int32_t, int64_t
 from libc.stdlib cimport free, malloc

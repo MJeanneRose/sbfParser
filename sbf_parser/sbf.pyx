@@ -1,5 +1,6 @@
-# JEANNE-ROSE Méven
-# 08/2023
+# Initial code by Jashandeep Sohi (2013, jashandeep.s.sohi@gmail.com)
+# adapted by Marco Job (2019, marco.job@bluewin.ch)
+# Update Meven Jeanne-Rose 2023
 
 from .blocks import BLOCKNAMES, BLOCKNUMBERS
 from .parsers cimport BLOCKPARSERS
@@ -32,15 +33,7 @@ def load(fobj, blocknames=[]):
     num_name_dict = dict(zip(BLOCKNUMBERS, BLOCKNAMES))
     
     blockparsers = {x: BLOCKPARSERS.get(x, BLOCKPARSERS['Unknown']) for x in set(num_name_dict.viewvalues())}
-    print("|",
-    "|",
-    "|")
-    for keys, value in blockparsers.items():
-        print(keys, value)
-    #print(blockparsers)
-    print("|",
-    "|",
-    "|")
+
     if not blockparsers:
         print("Unable to create parsers")
         return()
@@ -69,7 +62,7 @@ def load(fobj, blocknames=[]):
                         parser_func = blockparsers.get(blockname)
                         if parser_func:
                             block_dict = parser_func(( <char*>body_ptr)[0:body_length])
-                            yield blockrev, blockname, block_dict
+                            yield blockname, block_dict
 
                     else:
                         fseek(f, -HEADER_LEN + 1 - body_length, SEEK_CUR)

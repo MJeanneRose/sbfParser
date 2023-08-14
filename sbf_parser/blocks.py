@@ -1,6 +1,7 @@
 # Contains block description according to sepentrio reference
-# JEANNE-ROSE Méven
-# 08/2023
+# Initial code by Jashandeep Sohi (2013, jashandeep.s.sohi@gmail.com)
+# adapted by Marco Job (2019, marco.job@bluewin.ch)
+# Update Meven Jeanne-Rose 2023
 
 BLOCKNUMBERS = [
     4027, 4000, 4109,
