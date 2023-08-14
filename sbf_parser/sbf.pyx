@@ -38,7 +38,6 @@ def load(fobj, blocknames=[]):
         print("Unable to create parsers")
         return()
 
-    cnt = 0
     try:
         while True:
             if not fread(&h, HEADER_LEN, 1, f):
@@ -57,11 +56,9 @@ def load(fobj, blocknames=[]):
                         blockno = h.ID & 0x1fff
                         blockrev = (h.ID & 0xE000) >> 13
                         blockname = num_name_dict.get(blockno, 'Unknown')
-                        if blockname == 'ExtEvent':
-                            cnt+=1
                         parser_func = blockparsers.get(blockname)
                         if parser_func:
-                            block_dict = parser_func(( <char*>body_ptr)[0:body_length])
+                            block_dict = parser_func(( <char*>body_ptr)[0:body_length], blockrev)
                             yield blockname, block_dict
 
                     else:
