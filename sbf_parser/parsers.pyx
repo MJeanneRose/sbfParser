@@ -6,7 +6,7 @@ cdef dict BLOCKPARSERS = dict()
 
 
 def unknown_toDict(c1 * data, u1 rev):
-    return dict()
+    return {"Parser Message" : "Unable to parse this block"}
 
 
 BLOCKPARSERS['Unknown'] = unknown_toDict
@@ -31,7 +31,8 @@ def MeasEpoch_toDict(c1 * data, u1 rev):
     block_dict['SB1Length'] = sb0.SB1Length
     block_dict['SB2Length'] = sb0.SB2Length
     block_dict['CommonFlags'] = sb0.CommonFlags
-    block_dict['CumClkJumps'] = sb0.CumClkJumps
+    if rev >= 1:
+        block_dict['CumClkJumps'] = sb0.CumClkJumps
 
     sb1s = <MeasEpoch_Type_1 ** >malloc(sb0.N1 * sizeof(MeasEpoch_Type_1 * ) )
     sb2s = <MeasEpoch_Type_2 ** * > malloc(sb0.N1 * sizeof(MeasEpoch_Type_1 * ) )
@@ -119,9 +120,13 @@ def MeasExtra_toDict(c1 * data, u1 rev):
         sb1_dict['CodeVar'] = sb1.CodeVar
         sb1_dict['CarrierVar'] = sb1.CarrierVar
         sb1_dict['LockTime'] = sb1.LockTime
-        sb1_dict['CumLossCont'] = sb1.CumLossCont
-        sb1_dict['Info'] = sb1.Info
-
+        if rev >= 1:
+            sb1_dict['CumLossCont'] = sb1.CumLossCont
+            sb1_dict['CarMPCorr'] = sb1.CarMPCorr
+        if rev >= 2:
+            sb1_dict['Info'] = sb1.Info
+        if rev >= 3:
+            sb1_dict['Misc'] = sb1.Misc
     free(sb1s)
     return block_dict
 
@@ -696,7 +701,8 @@ def GLONav_toDict(c1 * data, u1 rev):
     block_dict['P4'] = sb0.P4
     block_dict['N_T'] = sb0.N_T
     block_dict['F_T'] = sb0.F_T
-    block_dict['C'] = sb0.C
+    if rev >= 1:
+        block_dict['C'] = sb0.C
 
     return block_dict
 
@@ -1561,12 +1567,14 @@ def PVTCartesian_toDict(c1 * data, u1 rev):
     block_dict['MeanCorrAge'] = sb0.MeanCorrAge
     block_dict['SignalInfo'] = sb0.SignalInfo
     block_dict['AlertFlag'] = sb0.AlertFlag
-    block_dict['NrBases'] = sb0.NrBases
-    block_dict['PPPInfo'] = sb0.PPPInfo
-    block_dict['Latency'] = sb0.Latency
-    block_dict['HAccuracy'] = sb0.HAccuracy
-    block_dict['VAccuracy'] = sb0.VAccuracy
-    block_dict['Misc'] = sb0.Misc
+    if rev >= 1:
+        block_dict['NrBases'] = sb0.NrBases
+        block_dict['PPPInfo'] = sb0.PPPInfo
+    if rev >= 2:
+        block_dict['Latency'] = sb0.Latency
+        block_dict['HAccuracy'] = sb0.HAccuracy
+        block_dict['VAccuracy'] = sb0.VAccuracy
+        block_dict['Misc'] = sb0.Misc
 
     return block_dict
 
@@ -1601,12 +1609,14 @@ def PVTGeodetic_toDict(c1 * data, u1 rev):
     block_dict['MeanCorrAge'] = sb0.MeanCorrAge
     block_dict['SignalInfo'] = sb0.SignalInfo
     block_dict['AlertFlag'] = sb0.AlertFlag
-    block_dict['NrBases'] = sb0.NrBases
-    block_dict['PPPInfo'] = sb0.PPPInfo
-    block_dict['Latency'] = sb0.Latency
-    block_dict['HAccuracy'] = sb0.HAccuracy
-    block_dict['VAccuracy'] = sb0.VAccuracy
-    block_dict['Misc'] = sb0.Misc
+    if rev >= 1:
+        block_dict['NrBases'] = sb0.NrBases
+        block_dict['PPPInfo'] = sb0.PPPInfo
+    if rev >= 2:
+        block_dict['Latency'] = sb0.Latency
+        block_dict['HAccuracy'] = sb0.HAccuracy
+        block_dict['VAccuracy'] = sb0.VAccuracy
+        block_dict['Misc'] = sb0.Misc
 
     return block_dict
 
@@ -2038,7 +2048,8 @@ def ExtEvent_toDict(c1 * data, u1 rev):
     block_dict['Polarity'] = sb0.Polarity
     block_dict['Offset'] = sb0.Offset
     block_dict['RxClkBias'] = sb0.RxClkBias
-    block_dict['PVTAge'] = sb0.PVTAge
+    if rev >= 1:
+        block_dict['PVTAge'] = sb0.PVTAge
 
     return block_dict
 
@@ -2073,12 +2084,14 @@ def ExtEventPVTCartesian_toDict(c1 * data, u1 rev):
     block_dict['MeanCorrAge'] = sb0.MeanCorrAge
     block_dict['SignalInfo'] = sb0.SignalInfo
     block_dict['AlertFlag'] = sb0.AlertFlag
-    block_dict['NrBases'] = sb0.NrBases
-    block_dict['PPPInfo'] = sb0.PPPInfo
-    block_dict['Latency'] = sb0.Latency
-    block_dict['HAccuracy'] = sb0.HAccuracy
-    block_dict['VAccuracy'] = sb0.VAccuracy
-    block_dict['Misc'] = sb0.Misc
+    if rev >= 1:
+        block_dict['NrBases'] = sb0.NrBases
+        block_dict['PPPInfo'] = sb0.PPPInfo
+    if rev >= 2:
+        block_dict['Latency'] = sb0.Latency
+        block_dict['HAccuracy'] = sb0.HAccuracy
+        block_dict['VAccuracy'] = sb0.VAccuracy
+        block_dict['Misc'] = sb0.Misc
 
     return block_dict
 
@@ -2113,12 +2126,14 @@ def ExtEventPVTGeodetic_toDict(c1 * data, u1 rev):
     block_dict['MeanCorrAge'] = sb0.MeanCorrAge
     block_dict['SignalInfo'] = sb0.SignalInfo
     block_dict['AlertFlag'] = sb0.AlertFlag
-    block_dict['NrBases'] = sb0.NrBases
-    block_dict['PPPInfo'] = sb0.PPPInfo
-    block_dict['Latency'] = sb0.Latency
-    block_dict['HAccuracy'] = sb0.HAccuracy
-    block_dict['VAccuracy'] = sb0.VAccuracy
-    block_dict['Misc'] = sb0.Misc
+    if rev >= 1:
+        block_dict['NrBases'] = sb0.NrBases
+        block_dict['PPPInfo'] = sb0.PPPInfo
+        if rev >= 2:
+            block_dict['Latency'] = sb0.Latency
+            block_dict['HAccuracy'] = sb0.HAccuracy
+            block_dict['VAccuracy'] = sb0.VAccuracy
+            block_dict['Misc'] = sb0.Misc
 
     return block_dict
 
@@ -2288,9 +2303,12 @@ def LBandTrackerStatus_toDict(c1 * data, u1 rev):
         sb1_dict['AGCGain'] = sb1.AGCGain
         sb1_dict['Mode'] = sb1.Mode
         sb1_dict['Status'] = sb1.Status
-        sb1_dict['SVID'] = sb1.SVID
-        sb1_dict['LockTime'] = sb1.LockTime
-        sb1_dict['Source'] = sb1.Source
+        if rev >= 2:
+            sb1_dict['SVID'] = sb1.SVID
+        if rev >= 1:
+            sb1_dict['LockTime'] = sb1.LockTime
+        if rev >= 3:
+            sb1_dict['Source'] = sb1.Source
 
     free(sb1s)
     return block_dict
@@ -2347,7 +2365,8 @@ def LBandRaw_toDict(c1 * data, u1 rev):
     block_dict['N'] = sb0.N
     block_dict['Frequency'] = sb0.Frequency
     block_dict['UserData'] = (< c1*>&sb0.UserData)[0:sb0.N]
-    block_dict['Channel'] = sb0.Channel
+    if rev >= 1:
+        block_dict['Channel'] = sb0.Channel
 
     return block_dict
 
@@ -2371,7 +2390,8 @@ def FugroStatus_toDict(c1 * data, u1 rev):
     block_dict['SubLinkVector'] = sb0.SubLinkVector
     block_dict['CRCGoodCount'] = sb0.CRCGoodCount
     block_dict['CRCBadCount'] = sb0.CRCBadCount
-    block_dict['LbandTrackerStatusIdx'] = sb0.LbandTrackerStatusIdx
+    if rev >= 1:
+        block_dict['LbandTrackerStatusIdx'] = sb0.LbandTrackerStatusIdx
 
     return block_dict
 
@@ -2601,7 +2621,8 @@ def OutputLink_toDict(c1 * data, u1 rev):
         sb1_dict['AllowedRate'] = sb1.AllowedRate
         sb1_dict['NrBytesProduced'] = sb1.NrBytesProduced
         sb1_dict['NrBytesSent'] = sb1.NrBytesSent
-        sb1_dict['NrClients'] = sb1.NrClients
+        if rev >= 1:
+            sb1_dict['NrClients'] = sb1.NrClients
 
         sb2s[n1] = <OutputLink_OutputType ** >malloc(sb1.N2 * sizeof(OutputLink_OutputType * ) )
         sb2_list = [None] * sb1.N2
@@ -2711,7 +2732,8 @@ def IPStatus_toDict(c1 * data, u1 rev):
     block_dict['IPAddress'] = (< c1*>sb0.IPAddress)[0:16]
     block_dict['Gateway'] = (< c1*>sb0.Gateway)[0:16]
     block_dict['Netmask'] = sb0.Netmask
-    block_dict['Host_Name'] = (< c1*>sb0.Gateway)[0:33]
+    if rev >= 1:
+        block_dict['Host_Name'] = (< c1*>sb0.Gateway)[0:33]
 
     return block_dict
 
@@ -2728,7 +2750,8 @@ def DynDNSStatus_toDict(c1 * data, u1 rev):
     block_dict['WNc'] = sb0.WNc
     block_dict['Status'] = sb0.Status
     block_dict['ErrorCode'] = sb0.ErrorCode
-    block_dict['IPAddress'] = (< c1*>sb0.IPAddress)[0:16]
+    if rev >= 1:
+        block_dict['IPAddress'] = (< c1*>sb0.IPAddress)[0:16]
 
     return block_dict
 
@@ -2786,7 +2809,8 @@ def DiskStatus_toDict(c1 * data, u1 rev):
         sb1_dict['DiskUsageLSB'] = sb1.DiskUsageLSB
         sb1_dict['DiskSize'] = sb1.DiskSize
         sb1_dict['CreateDeleteCount'] = sb1.CreateDeleteCount
-        sb1_dict['Error'] = sb1.Error
+        if rev >= 1:
+            sb1_dict['Error'] = sb1.Error
 
     free(sb1s)
     return block_dict
@@ -2925,16 +2949,20 @@ def ReceiverSetup_toDict(c1 * data, u1 rev):
     block_dict['DeltaH'] = sb0.DeltaH
     block_dict['DeltaE'] = sb0.DeltaE
     block_dict['DeltaN'] = sb0.DeltaN
-    block_dict['MarkerType'] = (< c1*>sb0.MarkerType)[0:20]
-    block_dict['GNSSFWVersion'] = (< c1*>sb0.GNSSFWVersion)[0:40]
-    block_dict['ProductName'] = (< c1*>sb0.ProductName)[0:40]
-    block_dict['Latitude'] = sb0.Latitude
-    block_dict['Longitude'] = sb0.Longitude
-    block_dict['Height'] = sb0.Height
-    block_dict['StationCode'] = (< c1*>sb0.StationCode)[0:10]
-    block_dict['MonumentIdx'] = sb0.MonumentIdx
-    block_dict['ReceiverIdx'] = sb0.ReceiverIdx
-    block_dict['CountryCode'] = (< c1*>sb0.CountryCode)[0:3]
+    if rev >= 1:
+        block_dict['MarkerType'] = (< c1*>sb0.MarkerType)[0:20]
+        if rev >= 2 :
+            block_dict['GNSSFWVersion'] = (< c1*>sb0.GNSSFWVersion)[0:40]
+            if rev >= 3:
+                block_dict['ProductName'] = (< c1*>sb0.ProductName)[0:40]
+                if rev >= 4:
+                    block_dict['Latitude'] = sb0.Latitude
+                    block_dict['Longitude'] = sb0.Longitude
+                    block_dict['Height'] = sb0.Height
+                    block_dict['StationCode'] = (< c1*>sb0.StationCode)[0:10]
+                    block_dict['MonumentIdx'] = sb0.MonumentIdx
+                    block_dict['ReceiverIdx'] = sb0.ReceiverIdx
+                    block_dict['CountryCode'] = (< c1*>sb0.CountryCode)[0:3]
 
     return block_dict
 
