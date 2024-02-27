@@ -81,7 +81,7 @@ BLOCKNAMES = [
     'OutputLink',       'NTRIPClientStatus',     'NTRIPServerStatus',
     'IPStatus',    'DynDNSStatus',      'QualityInd',
     'DiskStatus',           'RFStatus',           'P2PPStatus',
-    'CosmosStatus',             'GALAuthStatus',            'ReceiverSetup', 
+    'CosmosStatus',             'GALAuthStatus',            'ReceiverSetup',
     'RxMessage', 'Commands', 'Comment',
     'BBSamples', 'ASCIIIn', 'EncapsulatedOutput',
     'GISAction', 'GISStatus'
@@ -788,7 +788,7 @@ QZSNav = (
     ('WNt_oe', 'u2'),
 )
 
-QZSAlm =(
+QZSAlm = (
     ('TOW', 'u4'),
     ('WNc', 'u2'),
     ('PRN', 'u1'),
@@ -1900,4 +1900,3 @@ DatabaseStatus = (
     ('NrItems', 'u4'),
     ('NrNotSync', 'u4'),
 )
-

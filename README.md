@@ -47,7 +47,7 @@ Print the block name and block content:
 import sbf_parser
     
 with open('./dummy.sbf') as sbf_fobj:
- for blockName, block in sbfParser.load(sbf_fobj):
+ for blockName, block in sbf_parser.load(sbf_fobj):
   print(blockName)
   print(block)
 ```
@@ -58,8 +58,8 @@ Print the azimuth & elevation for each visible satellite using the *SatVisibilit
 import sbf_parser
     
 with open('./dummy.sbf') as sbf_fobj:
- for blockName, block in sbfParser.load(sbf_fobj, blocknames={'SatVisibility'}):
+ for blockName, block in sbf_parser.load(sbf_fobj, blocknames={'SatVisibility'}):
   for satInfo in block['SatInfo']:
-   print satInfo['SVID'], satInfo['Azimuth'], satInfo['Elevation']
+   print(satInfo['SVID'], satInfo['Azimuth'], satInfo['Elevation'])
 ```
 
